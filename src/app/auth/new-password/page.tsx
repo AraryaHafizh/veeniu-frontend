@@ -1,28 +1,36 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import React from "react";
+import { InputField } from "@/components/ui/inputfield";
+import { AuthRedirectText } from "@/components/ui/redirect-text";
 
 const ForgetPassword = () => {
   return (
     <div className="relative h-screen flex-col items-center justify-center">
-      <div className="z-50 flex flex-col text-center h-full w-full items-center justify-center md:flex-row md:text-left md:space-x-28">
-        <p className="text-primary text-5xl font-bold">Insert your <br /> new password</p>
+      <div className="z-50 flex h-full w-full flex-col items-center justify-center md:flex-row md:space-x-28 md:text-left">
+        <p className="text-primary text-5xl font-bold">
+          Insert your <br /> new password
+        </p>
         <div className="w-sm space-y-8">
-          <div className="space-y-2">
-            <Label>New password</Label>
-            <Input type="password" />
+          <InputField id="new-password" label="New password" />
+          <div>
+            <AuthRedirectText
+              text="New to Veeniu?"
+              linkText="Sign up"
+              linkHref="/auth/signup"
+              className="text-start"
+            />
+            <Button className="mt-4 w-full">Change password</Button>
+            <AuthRedirectText
+              text="Already a hooman?"
+              linkText="Sign in"
+              linkHref="/auth/signin"
+              className="mt-8"
+            />
           </div>
-          <p>
-            New to veeniu? {" "}
-            <Link href="/" className="underline">
-              sign up
-            </Link>
-          </p>
-          <Button className="w-full">Change password</Button>
         </div>
       </div>
+      <footer className="text-secondary absolute bottom-20 z-40 w-full text-center font-bold">
+        © 2025 Veeniu
+      </footer>
     </div>
   );
 };
