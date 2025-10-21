@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/inputfield";
-import Link from "next/link";
+import { AuthRedirectText } from "@/components/ui/redirect-text";
 
 export default function SigninInput() {
   return (
@@ -15,9 +15,11 @@ export default function SigninInput() {
 
       <Button className="mt-4 w-full">Sign in</Button>
       <div className="flex w-full flex-col items-center justify-center space-y-2">
-        <Link href="/auth/signin" className="text-foreground/70 text-sm">
-          Already a hooman? Sign in
-        </Link>
+        <AuthRedirectText
+          text="Already a hooman?"
+          linkText="Sign in"
+          linkHref="/auth/signin"
+        />
       </div>
     </section>
   );

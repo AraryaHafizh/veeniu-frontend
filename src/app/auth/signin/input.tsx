@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/inputfield";
+import { AuthRedirectText } from "@/components/ui/redirect-text";
 import Link from "next/link";
 
 export default function SigninInput() {
@@ -12,15 +13,15 @@ export default function SigninInput() {
         <InputField id="password" label="Password" type="password" />
       </div>
 
-      <Link href="/auth/signin" className="text-foreground/70 text-sm">
+      <Link href="/auth/forget-password" className="text-foreground/70 text-sm">
         Forget password?
       </Link>
       <Button className="mt-4 w-full">Sign in</Button>
-      <div className="flex w-full justify-center">
-        <Link href="/auth/signin" className="text-foreground/70 text-sm">
-          New to Veeniu? Sign up
-        </Link>
-      </div>
+      <AuthRedirectText
+        text="New to Veeniu?"
+        linkText="Sign up"
+        linkHref="/auth/signup"
+      />
     </section>
   );
 }
