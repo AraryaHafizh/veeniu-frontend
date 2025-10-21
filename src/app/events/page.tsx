@@ -4,9 +4,9 @@ import { EventList } from "./EventList";
 import { Pagintaion } from "@/components/ui/pagination";
 import { Footer } from "@/components/ui/footer";
 
-export default function Events() {
+export default function Event() {
   return (
-    <main>
+    <main className="container mx-auto max-w-[1920px]">
       <Navbar />
       <UserInteraction />
       <EventList />
