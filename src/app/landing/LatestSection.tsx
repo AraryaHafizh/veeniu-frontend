@@ -21,7 +21,7 @@ export const LatestSection = () => (
     <div className="flex items-end justify-between px-[52px]">
       <p className="text-primary text-3xl font-bold">Latest events</p>
       <Link
-        href="/"
+        href="/events"
         className="hover:text-secondary text-sm underline transition-all duration-300 ease-in-out"
       >
         See all
