@@ -30,17 +30,17 @@ export const TicketDrawer = () => {
   return (
     <Drawer>
       <DrawerTrigger>
-        <p className="hover:text-secondary cursor-pointer text-sm underline transition-all duration-300 ease-in-out">
+        <p className="hover:text-secondary cursor-pointer text-xs underline transition-all duration-300 ease-in-out md:text-sm">
           See all
         </p>
       </DrawerTrigger>
-      <DrawerContent className="h-[90vh]">
-        <section className="grid h-full grid-cols-2 gap-10 p-[86px]">
+      <DrawerContent>
+        <section className="grid grid-cols-2 gap-10 p-[86px]">
           <div>
             <DrawerTitle className="text-primary mb-5 text-3xl font-bold">
               My tickets
             </DrawerTitle>
-            <div className="grid h-[50vh] grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-5">
               {Array.from({ length: 6 }).map((_, i) => (
                 <TicketCard
                   key={i}

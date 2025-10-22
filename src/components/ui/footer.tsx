@@ -56,22 +56,22 @@ const footerData = {
 
 export const Footer = () => {
   return (
-    <footer className="space-y-20 bg-[var(--footer)] px-5 pt-20 pb-5 text-[var(--footer-text)]">
-      <div className="flex items-center space-x-10">
+    <footer className="space-y-20 bg-[var(--footer)] px-5 pt-5 pb-5 text-[var(--footer-text)] md:px-5 md:pt-20">
+      <div className="items-center space-y-10 space-x-10 md:flex md:space-y-0">
         <div className="flex flex-[2] justify-center">
           <Link className="text-secondary text-7xl font-bold" href="/">
             Veeniu
           </Link>
         </div>
 
-        <div className="flex flex-[3] justify-center space-x-20">
+        <div className="grid flex-[3] grid-cols-2 justify-center gap-5 md:flex md:gap-20">
           {footerData.link.map((item: any) => (
             <FooterLink key={item.key} title={item.key} data={item.value} />
           ))}
         </div>
       </div>
 
-      <div className="flex justify-between text-sm text-[var(--footer-text)]/50">
+      <div className="flex flex-col items-center justify-between gap-2 text-sm text-[var(--footer-text)]/50 md:flex-row">
         <p>{footerData.credit.title}</p>
         <div className="space-x-4">
           {footerData.credit.social.map((item: any) => (
@@ -98,14 +98,14 @@ const FooterLink = ({
   title: string;
   data: Array<{ title: string; link: string; key?: string }>;
 }) => (
-  <div>
-    <p className="text-secondary mb-2 text-lg">{title}</p>
+  <div className="md:text-lg">
+    <p className="text-secondary mb-2">{title}</p>
     {data.map((item) => (
       <a
         key={item.key || item.title}
         href={item.link}
         target="_blank"
-        className="hover:text-secondary block w-fit text-lg font-light transition-all duration-300 ease-in-out"
+        className="hover:text-secondary block w-fit font-light transition-all duration-300 ease-in-out"
       >
         {item.title}
       </a>

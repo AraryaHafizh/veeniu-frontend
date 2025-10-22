@@ -17,7 +17,7 @@ export const TicketCard = ({
 }: TicketCardProps) => {
   return (
     <section
-      className={`relative rounded-xl bg-[var(--container)] p-3 transition-all duration-300 ease-in-out hover:cursor-pointer hover:bg-[var(--container-hover)] ${isFinished ? "brightness-80" : "blur-none"}`}
+      className={`relative rounded-xl bg-[var(--container)] p-3 transition-all duration-300 ease-in-out ${isFinished ? "brightness-80" : "blur-none"} ${price ? "hover:cursor-pointer hover:bg-[var(--container-hover)]" : ""}`}
     >
       <div
         className="absolute top-0 left-[80%] h-full w-[5px]"
@@ -27,8 +27,8 @@ export const TicketCard = ({
         }}
       ></div>
 
-      <div className="relative z-10 text-sm font-light">
-        <h1 className="pb-5 text-base font-bold">{title}</h1>
+      <div className="relative z-10 text-xs font-light md:text-sm">
+        <h1 className="pb-5 text-sm font-bold md:text-base">{title}</h1>
         {price ? (
           <p>{price}</p>
         ) : (

@@ -8,6 +8,7 @@ export interface eventCardProps {
   location: string;
   price: string;
   date: string;
+  isDense?: boolean;
 }
 
 export const EventCard = ({
@@ -17,12 +18,13 @@ export const EventCard = ({
   location,
   price,
   date,
+  isDense,
 }: eventCardProps) => {
   const router = useRouter();
   return (
     <section
       key={eventId}
-      className="group relative w-[420px] flex-shrink-0 overflow-hidden rounded-xl hover:cursor-pointer"
+      className="group relative flex-shrink-0 overflow-hidden rounded-xl hover:cursor-pointer 2xl:w-[420px]"
       onClick={() => {
         router.push(`/events/${eventId}`);
       }}
@@ -32,10 +34,12 @@ export const EventCard = ({
         alt="image"
         className="brightness-90 transition-all duration-300 ease-in-out group-hover:brightness-40"
       />
-      <div className="absolute inset-0 grid grid-rows-[auto_1fr_auto] pt-7 pb-3 text-center text-sm font-light text-transparent transition-all duration-300 ease-in-out group-hover:text-[var(--footer-text)]">
+      <div
+        className={`absolute inset-0 ${isDense ? "my-2" : "my-4"} grid grid-rows-[auto_1fr_auto] px-1 text-center text-xs font-light text-transparent transition-all duration-300 ease-in-out group-hover:text-[var(--footer-text)] md:my-0 md:pt-7 md:pb-3 md:text-sm`}
+      >
         <p>{date}</p>
         <div className="flex items-center justify-center">
-          <h1 className="text-base font-bold">{title}</h1>
+          <h1 className="font-bold md:text-base">{title}</h1>
         </div>
         <div className="space-y-1">
           <p>{location}</p>
