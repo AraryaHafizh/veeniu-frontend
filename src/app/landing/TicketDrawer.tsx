@@ -8,7 +8,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import { InputField } from "@/components/ui/inputfield";
-import { Pagintaion } from "@/components/ui/pagination";
+import { Pagination } from "@/components/ui/pagination";
 import { TicketCard } from "@/components/ui/ticket-card";
 import clsx from "clsx";
 import { Star } from "lucide-react";
@@ -52,7 +52,7 @@ export const TicketDrawer = () => {
               ))}
             </div>
             <div className="mt-10 flex justify-center">
-              <Pagintaion page="1" />
+              <Pagination page="1" />
             </div>
           </div>
           <div>
