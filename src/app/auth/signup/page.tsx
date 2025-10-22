@@ -1,19 +1,17 @@
-import SigninInput from "./input";
+import { FooterAuth } from "../FooterAuth";
+import SignupInput from "./input";
 
 export default function Signup() {
   return (
     <main className="relative flex h-screen flex-col items-center justify-center">
-      <section className="z-50 flex flex-col items-center justify-center text-center md:flex-row md:space-x-28 md:text-left">
-        <p className="text-primary text-5xl font-bold">
+      <section className="flex flex-col items-center justify-center text-center md:flex-row md:space-x-28 md:text-left">
+        <p className="text-primary mb-10 text-5xl font-black md:mb-0 md:w-[20vw]">
           Hello new <br />
           Hooman!
         </p>
-        <SigninInput />
+        <SignupInput />
       </section>
-
-      <footer className="text-secondary absolute bottom-20 z-40 w-full text-center font-bold">
-        © 2025 Veeniu
-      </footer>
+      <FooterAuth />
     </main>
   );
 }
