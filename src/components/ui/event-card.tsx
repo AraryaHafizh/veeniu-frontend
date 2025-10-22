@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 export interface eventCardProps {
   eventId: number;
@@ -17,11 +18,14 @@ export const EventCard = ({
   price,
   date,
 }: eventCardProps) => {
+  const router = useRouter();
   return (
     <section
       key={eventId}
       className="group relative w-[420px] flex-shrink-0 overflow-hidden rounded-xl hover:cursor-pointer"
-      onClick={() => {}}
+      onClick={() => {
+        router.push(`/events/${eventId}`);
+      }}
     >
       <img
         src={thumbnail}

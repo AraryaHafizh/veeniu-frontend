@@ -14,7 +14,7 @@ const data = {
     "Rich Brian, the globally acclaimed Indonesian rapper, is set to return to his homeland’s stage with renewed energy. After a successful international tour and captivating audiences with his authentic works, he will be holding a special concert in Jakarta. As part of his global tour, Rich Brian will perform in Rich Brian – Where Is My Head? Tour in Jakarta on 29 November 2025 (Saturday) at Beach City International Stadium. This concert will be a special moment for fans to experience the vibrant music and electrifying stage presence of one of Asia’s most iconic artists. With a powerful setlist, stunning visuals, and an intense atmosphere, this is one performance you won’t want to miss!",
   ticket: {
     title: "Platinum Super Pro Max Ultra",
-    price: "Rp. 950.000",
+    price: "Rp 950.000",
   },
 };
 

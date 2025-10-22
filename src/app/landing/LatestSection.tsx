@@ -12,7 +12,7 @@ const data = {
   thumbnail:
     "https://assets.loket.com/neo/production/images/banner/20250815211622_689f4136370d7.jpeg",
   location: "Beach City International Stadium",
-  price: "Rp. 950.000",
+  price: "Rp 950.000",
   date: "29 November 2025",
 };
 
