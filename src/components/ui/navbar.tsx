@@ -8,7 +8,7 @@ export const Navbar = () => {
   const router = useRouter();
 
   return (
-    <section className="mx-[52px] my-[20px] flex justify-between">
+    <section className="mx-5 my-[20px] flex justify-between md:mx-[52px]">
       <Link className="text-primary text-4xl font-bold" href="/">
         Veeniu
       </Link>

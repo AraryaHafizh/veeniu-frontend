@@ -18,20 +18,22 @@ const data = {
 
 export const LatestSection = () => (
   <section className="mt-8 space-y-4">
-    <div className="flex items-end justify-between px-[52px]">
-      <p className="text-primary text-3xl font-bold">Latest events</p>
+    <div className="flex items-end justify-between px-5 md:px-[52px]">
+      <p className="text-primary text-xl font-bold md:text-3xl">
+        Latest events
+      </p>
       <Link
         href="/events"
-        className="hover:text-secondary text-sm underline transition-all duration-300 ease-in-out"
+        className="hover:text-secondary text-xs underline transition-all duration-300 ease-in-out md:text-sm"
       >
         See all
       </Link>
     </div>
     <Carousel opts={{ dragFree: true }}>
-      <CarouselContent className="mr-[52px] pl-[52px]">
+      <CarouselContent className="mr-5 pl-5 md:mr-[52px] md:pl-[52px]">
         {Array.from({ length: 10 }).map((_, i) => (
-          <CarouselItem key={i} className="basis-[24%]">
-            <EventCard {...data} />
+          <CarouselItem key={i} className="basis-[300px] 2xl:basis-[450px]">
+            <EventCard {...data} isDense={true}/>
           </CarouselItem>
         ))}
       </CarouselContent>

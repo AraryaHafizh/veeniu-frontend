@@ -19,7 +19,7 @@ const data = {
 
 export default function WelcomeSection() {
   return (
-    <section className="min-h-[92vh]">
+    <section className="md:min-h-[92vh]">
       <WelcomeCarousel />
       <UserTicket />
     </section>
@@ -38,26 +38,28 @@ const WelcomeCarousel = () => (
   >
     <CarouselContent>
       {Array.from({ length: 5 }).map((_, i) => (
-        <CarouselItem key={i} className="px-[52px]">
-          <div className="relative h-[65vh]">
+        <CarouselItem key={i}>
+          <div className="relative px-5 md:h-[65vh] md:px-[52px]">
             <img
               src={data.thumbnail}
               alt={data.title}
               className="h-full w-full rounded-2xl object-cover"
             />
 
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-transparent to-black/100" />
+            <div className="absolute inset-0 mx-5 rounded-2xl bg-gradient-to-b from-transparent to-black/90 md:mx-[52px]" />
 
-            <div className="absolute inset-0 flex flex-col justify-end space-y-9 p-[40px] text-[var(--footer-text)]">
-              <p className="text-5xl font-bold">{data.title}</p>
-              <div className="flex w-full justify-between">
-                <div className="space-y-2">
+            <div className="absolute inset-0 m-10 flex flex-col justify-end rounded-2xl text-[var(--footer-text)] md:mx-25 md:my-5">
+              <p className="font-bold md:text-5xl">{data.title}</p>
+
+              <div className="mt-10 hidden justify-between md:flex">
+                <div className="space-y-1 md:space-y-2">
                   <p>{data.location}</p>
                   <p>{data.date}</p>
                   <p>{data.price}</p>
                 </div>
-                <div className="w-[40vw]">
-                  <p>{data.desc}</p>
+
+                <div className="w-[40%]">
+                  <p className="line-clamp-3">{data.desc}</p>
                 </div>
               </div>
             </div>
@@ -70,15 +72,17 @@ const WelcomeCarousel = () => (
 
 const UserTicket = () => {
   return (
-    <section className="mt-8 space-y-4">
-      <div className="flex items-end justify-between px-[52px]">
-        <p className="text-primary text-3xl font-bold">My tickets</p>
-        <TicketDrawer />
-      </div>
+    <section className="mt-10 space-y-4">
+      <p className="text-primary px-5 text-xl font-bold md:px-[52px] md:text-3xl">
+        My tickets
+      </p>
       <Carousel opts={{ dragFree: true }}>
-        <CarouselContent className="mr-[52px] pl-[52px]">
+        <CarouselContent className="mr-5 pl-5 md:mr-[52px] md:pl-[52px]">
           {Array.from({ length: 10 }).map((_, i) => (
-            <CarouselItem key={i} className="basis-[18%]">
+            <CarouselItem
+              key={i}
+              className="basis-[240px] md:basis-[290px] lg:basis-[350px] 2xl:basis-[400px]"
+            >
               <TicketCard
                 title={data.title}
                 date={data.date}
