@@ -1,13 +1,8 @@
 "use client";
 
+import { ContentTitle } from "@/components/ui/content-title";
 import { TicketCard } from "@/components/ui/ticket-card";
 import { useState } from "react";
-
-interface contentTitleProps {
-  selected: string;
-  setSelected: (value: string) => void;
-  title: string;
-}
 
 const data = {
   description:
@@ -38,15 +33,6 @@ export const EventContent = () => {
     </section>
   );
 };
-
-const ContentTitle = ({ selected, setSelected, title }: contentTitleProps) => (
-  <p
-    className={`${selected === title ? "text-primary" : "text-foreground/50 hover:text-foreground/70"} cursor-pointer text-xl font-bold transition-all duration-300 ease-in-out md:text-3xl`}
-    onClick={() => setSelected(title)}
-  >
-    {title}
-  </p>
-);
 
 const TicketClass = () => (
   <section className="grid gap-3 md:grid-cols-2 md:gap-10">

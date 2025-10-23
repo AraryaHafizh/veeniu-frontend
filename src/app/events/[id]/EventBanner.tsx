@@ -1,4 +1,7 @@
+"use client";
+
 import { CircleUserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const data = {
   eventId: 0,
@@ -14,6 +17,7 @@ const data = {
 };
 
 export const EventBanner = () => {
+  const router = useRouter();
   return (
     <section className="gap-10 md:flex md:h-[50vh] md:px-[52px]">
       <div className="h-full flex-[60%]">
@@ -35,7 +39,10 @@ export const EventBanner = () => {
           </p>
         </div>
 
-        <div className="flex w-fit cursor-pointer items-center gap-2">
+        <div
+          className="flex w-fit cursor-pointer items-center gap-2"
+          onClick={() => router.push("/organizer")}
+        >
           <CircleUserRound className="h-8 w-8 md:h-12 md:w-12" />
           <div>
             <p className="text-xs leading-none">Organized by</p>
