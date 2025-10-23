@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import { Averia_Serif_Libre } from "next/font/google";
-import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
+import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
+import { Averia_Serif_Libre } from "next/font/google";
 import { Toaster } from "sonner";
+import "./globals.css";
 
 const averia = Averia_Serif_Libre({
   subsets: ["latin"],
