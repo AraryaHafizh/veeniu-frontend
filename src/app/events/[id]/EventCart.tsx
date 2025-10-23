@@ -12,8 +12,8 @@ const data = {
 export const EventCart = () => {
   const router = useRouter();
   return (
-    <section className="flex-[40%] space-y-5 pr-[52px]">
-      <p className="text-primary text-3xl font-bold">Your tickets</p>
+    <section className="flex-[40%] space-y-5 px-5 md:pr-[52px]">
+      <p className="text-primary text-xl font-bold md:text-3xl">Your tickets</p>
       {Array.from({ length: 5 }).map((_, i) => (
         <TicketCart key={i} title={data.title} price={data.price} />
       ))}
@@ -29,7 +29,7 @@ export const EventCart = () => {
 
 const TotalPrice = ({ price }: { price: string }) => {
   return (
-    <section className="flex justify-between text-3xl font-bold">
+    <section className="flex justify-between text-xl font-bold md:text-3xl">
       <p className="text-primary">Total</p>
       <p>{price}</p>
     </section>

@@ -15,26 +15,28 @@ const data = {
 
 export const EventBanner = () => {
   return (
-    <section className="flex h-[50vh] gap-10 px-[52px]">
+    <section className="gap-10 md:flex md:h-[50vh] md:px-[52px]">
       <div className="h-full flex-[60%]">
         <img
           src={data.thumbnail}
-          className="h-full w-full rounded-xl object-cover"
+          className="h-full w-full object-cover md:rounded-xl"
         />
       </div>
 
-      <div className="flex flex-[40%] flex-col justify-between py-8">
-        <h1 className="text-secondary text-6xl font-bold">{data.title}</h1>
-        <div>
+      <div className="flex flex-[40%] flex-col justify-between gap-5 px-5 py-8">
+        <h1 className="text-secondary text-2xl font-bold md:text-6xl">
+          {data.title}
+        </h1>
+
+        <div className="text-sm md:text-base">
           <p>{data.location}</p>
           <p>
-            {data.date}|{data.time} WIB
+            {data.date} | {data.time} WIB
           </p>
-          <p>{data.category}</p>
         </div>
 
         <div className="flex w-fit cursor-pointer items-center gap-2">
-          <CircleUserRound size={35} />
+          <CircleUserRound className="h-8 w-8 md:h-12 md:w-12" />
           <div>
             <p className="text-xs leading-none">Organized by</p>
             <p className="text-xl leading-tight">{data.organizer}</p>

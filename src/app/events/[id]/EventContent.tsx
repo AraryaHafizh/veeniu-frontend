@@ -21,8 +21,8 @@ const data = {
 export const EventContent = () => {
   const [selected, setSelected] = useState("Description");
   return (
-    <section className="flex-[60%] space-y-5 px-[52px]">
-      <div className="flex gap-20">
+    <section className="flex-[60%] space-y-5 px-5 md:px-[52px]">
+      <div className="flex gap-5 md:gap-20">
         <ContentTitle
           selected={selected}
           setSelected={setSelected}
@@ -41,7 +41,7 @@ export const EventContent = () => {
 
 const ContentTitle = ({ selected, setSelected, title }: contentTitleProps) => (
   <p
-    className={`${selected === title ? "text-primary" : "text-foreground/50 hover:text-foreground/70"} cursor-pointer text-3xl font-bold transition-all duration-300 ease-in-out`}
+    className={`${selected === title ? "text-primary" : "text-foreground/50 hover:text-foreground/70"} cursor-pointer text-xl font-bold transition-all duration-300 ease-in-out md:text-3xl`}
     onClick={() => setSelected(title)}
   >
     {title}
@@ -49,7 +49,7 @@ const ContentTitle = ({ selected, setSelected, title }: contentTitleProps) => (
 );
 
 const TicketClass = () => (
-  <section className="grid grid-cols-2 gap-10">
+  <section className="grid gap-3 md:grid-cols-2 md:gap-10">
     {Array.from({ length: 10 }).map((_, i) => (
       <TicketCard key={i} {...data.ticket} />
     ))}

@@ -16,7 +16,7 @@ export default function EventDetail({ params }: EventDetailProps) {
     <main className="container mx-auto max-w-[1920px]">
       <Navbar />
       <EventBanner />
-      <div className="mt-24 mb-40 flex min-h-[500px]">
+      <div className="mb-40 space-y-5 md:mt-24 md:flex md:min-h-[500px]">
         <EventContent />
         <EventCart />
       </div>
