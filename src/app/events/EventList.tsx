@@ -12,7 +12,7 @@ const data = {
 
 export const EventList = () => {
   return (
-    <section className="mt-28 grid grid-cols-4 gap-y-7 px-[52px]">
+    <section className="mt-28 grid gap-7 px-[52px] md:grid-cols-3 xl:grid-cols-4">
       {Array.from({ length: 12 }).map((_, i) => (
         <EventCard key={i} {...data} />
       ))}
