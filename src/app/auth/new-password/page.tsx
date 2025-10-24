@@ -1,21 +1,9 @@
 "use client";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/inputfield";
 import { AuthRedirectText } from "@/components/ui/redirect-text";
-import { useRouter } from "next/navigation";
-import { PasswordChangeConfirmation } from "../PopupConfirmation";
 import { FooterAuth } from "../FooterAuth";
+import { PasswordChangeConfirmation } from "../PopupConfirmation";
 
 const ForgetPassword = () => {
   return (

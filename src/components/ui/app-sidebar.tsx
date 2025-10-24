@@ -1,62 +1,81 @@
-import { Calendar, ChevronUp, Home, Inbox, Search, Settings, User2 } from "lucide-react"
+"use client";
 
+import {
+  BadgeDollarSign,
+  BadgePercent,
+  CircleUserRound,
+  LayoutDashboard,
+  LogOut,
+  PartyPopper,
+  Ticket,
+} from "lucide-react";
+
+import { SignoutConfirmation } from "@/app/auth/PopupConfirmation";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu"
+} from "@/components/ui/sidebar";
+import { CustomTrigger } from "./custom-sidebar-trigger";
+import Link from "next/link";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Event",
+    url: "/dashboard/events",
+    icon: PartyPopper,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Voucher",
+    url: "/dashboard/vouchers",
+    icon: BadgePercent,
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "Ticket",
+    url: "/dashboard/tickets",
+    icon: Ticket,
   },
   {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Transaction",
+    url: "/dashboard/transactions",
+    icon: BadgeDollarSign,
   },
-]
+  {
+    title: "Account",
+    url: "#",
+    icon: CircleUserRound,
+  },
+];
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar variant="floating" collapsible="icon">
+      <CustomTrigger />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-4xl">Veeniu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="my-5">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                  <SidebarMenuButton
+                    asChild
+                    className="transition-all duration-300 hover:text-white"
+                  >
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -65,33 +84,18 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
-                    <User2 /> Username
-                    <ChevronUp className="ml-auto" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  side="top"
-                  className="w-[--radix-popper-anchor-width]"
-                >
-                  <DropdownMenuItem>
-                    <span>Account</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span>Billing</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span>Sign out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
+        <SignoutConfirmation>
+          <SidebarMenuButton
+            asChild
+            className="hover:bg-destructive cursor-pointer transition-all duration-300 hover:text-white"
+          >
+            <span>
+              <LogOut />
+              Sign out
+            </span>
+          </SidebarMenuButton>
+        </SignoutConfirmation>
+      </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
