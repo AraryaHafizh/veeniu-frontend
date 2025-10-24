@@ -3,6 +3,7 @@
 import {
   AlertDialog,
   AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { ReactNode } from "react";
 
 interface CreateAccountConfirmationProps {
   title: string;
@@ -60,6 +62,31 @@ export const PasswordChangeConfirmation = () => {
         <AlertDialogFooter>
           <AlertDialogAction onClick={() => router.replace("/auth/signin")}>
             Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+export const SignoutConfirmation = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Leaving so soon?</AlertDialogTitle>
+          <AlertDialogDescription>
+            You’re about to sign out. Don’t worry, you can always come back
+            later!
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => router.replace("/auth/signin")}>
+            Sign out
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
