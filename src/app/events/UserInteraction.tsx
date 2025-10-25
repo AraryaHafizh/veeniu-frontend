@@ -2,6 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
@@ -11,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { ListFilter } from "lucide-react";
 import { useState } from "react";
 
 interface EventFilterProps {
@@ -19,6 +26,7 @@ interface EventFilterProps {
   data: string[];
   position: string;
   setPosition: (pos: string) => void;
+  width?: string;
 }
 
 const data = {
@@ -74,25 +82,39 @@ const data = {
 
 export const UserInteraction = () => {
   const [category, setCategory] = useState("Category");
-  const [cities, setCities] = useState("Location");
-
+  const [city, setCity] = useState("Location");
+  const filters = [
+    {
+      title: "Category",
+      selected: category,
+      data: data.categoryData,
+      position: category,
+      setPosition: setCategory,
+    },
+    {
+      title: "Location",
+      selected: city,
+      data: data.cities,
+      position: city,
+      setPosition: setCity,
+    },
+  ];
   return (
-    <section className="mt-16 flex space-x-5 px-[52px]">
-      <Input placeholder="Search event" className="w-64" />
-      <EventFilter
-        title={"Category"}
-        selected={category}
-        data={data.categoryData}
-        position={category}
-        setPosition={setCategory}
-      />
-      <EventFilter
-        title={"Location"}
-        selected={cities}
-        data={data.cities}
-        position={cities}
-        setPosition={setCities}
-      />
+    <section className="mt-16 flex gap-2 px-5 md:gap-5 md:px-[52px]">
+      <Input placeholder="Search event" className="md:w-64" />
+      <div className="hidden space-x-2 md:flex">
+        {filters.map((filter, i) => (
+          <EventFilter key={i} {...filter} />
+        ))}
+      </div>
+
+      <div className="block md:hidden">
+        <EventFilterMobile>
+          {filters.map((filter, i) => (
+            <EventFilter key={i} {...filter} width="w-full" />
+          ))}
+        </EventFilterMobile>
+      </div>
     </section>
   );
 };
@@ -103,14 +125,15 @@ const EventFilter = ({
   data,
   position,
   setPosition,
+  width,
 }: EventFilterProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="outline" className="w-30">
+      <Button variant="outline" className={`${width ?? "w-fit"} min-w-24`}>
         {selected}
       </Button>
     </DropdownMenuTrigger>
-    <DropdownMenuContent className="w-56">
+    <DropdownMenuContent className="w-44">
       <DropdownMenuLabel>{title}</DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
@@ -122,4 +145,18 @@ const EventFilter = ({
       </DropdownMenuRadioGroup>
     </DropdownMenuContent>
   </DropdownMenu>
+);
+
+const EventFilterMobile = ({ children }: { children: React.ReactNode }) => (
+  <Dialog>
+    <DialogTrigger asChild>
+      <Button variant={"outline"}>
+        <ListFilter />
+      </Button>
+    </DialogTrigger>
+    <DialogContent>
+      <DialogTitle>Filter events</DialogTitle>
+      {children}
+    </DialogContent>
+  </Dialog>
 );

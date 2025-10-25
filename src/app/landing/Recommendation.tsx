@@ -14,7 +14,7 @@ const data = {
 export const Recommendation = () => (
   <section className="mt-10 mb-40 space-y-4 px-5 md:mt-32 md:px-[52px]">
     <p className="text-primary text-xl font-bold md:text-3xl">You may like</p>
-    <div className="grid gap-7 md:grid-cols-3 xl:grid-cols-4">
+    <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-4">
       {Array.from({ length: 10 }).map((_, i) => (
         <EventCard key={i} {...data} />
       ))}

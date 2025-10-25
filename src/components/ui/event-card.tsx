@@ -24,7 +24,7 @@ export const EventCard = ({
   return (
     <section
       key={eventId}
-      className="group relative flex-shrink-0 overflow-hidden rounded-xl hover:cursor-pointer 2xl:w-[420px]"
+      className="group relative flex-shrink-0 overflow-hidden rounded-xl hover:cursor-pointer"
       onClick={() => {
         router.push(`/events/${eventId}`);
       }}
