@@ -16,10 +16,7 @@ export default function DashboardLayout({
 }
 
 function MainContent({ children }: { children: React.ReactNode }) {
-  const { open } = useSidebar();
-  const padleft = open ? "" : "pl-5";
-
   return (
-    <main className={`overflow-y-auto ${padleft} w-full`}>{children}</main>
+    <main className={`w-full overflow-y-auto px-5 py-10`}>{children}</main>
   );
 }

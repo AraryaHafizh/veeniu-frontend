@@ -1,17 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SectionTitle } from "@/components/ui/dashboard-section-title";
 import Link from "next/link";
 
 export default function OrganizerEvent() {
   return (
-    <div className="mt-10 w-full pr-10">
-      <p>My events</p>
+    <section>
+      <SectionTitle title="My events" />
       <div className="mt-10 flex justify-between">
         <Input type="text" placeholder="Search" className="w-[280px]"></Input>
         <Link href="/dashboard/events/create">
           <Button type="button">Create</Button>
         </Link>
       </div>
-    </div>
+    </section>
   );
 }
