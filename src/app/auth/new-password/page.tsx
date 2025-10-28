@@ -1,9 +1,7 @@
 "use client";
 
-import { InputField } from "@/components/ui/inputfield";
-import { AuthRedirectText } from "@/components/ui/redirect-text";
 import { FooterAuth } from "../FooterAuth";
-import { PasswordChangeConfirmation } from "../PopupConfirmation";
+import NewPassInput from "./input";
 
 const ForgetPassword = () => {
   return (
@@ -12,24 +10,7 @@ const ForgetPassword = () => {
         <p className="text-primary mb-10 text-5xl font-black md:mb-0 md:w-[20vw]">
           Insert your <br /> new password
         </p>
-        <div className="w-sm space-y-8 px-5 md:px-0">
-          <InputField id="new-password" label="New password" />
-          <div>
-            <AuthRedirectText
-              text="New to Veeniu?"
-              linkText="Sign up"
-              linkHref="/auth/signup"
-              className="text-start"
-            />
-            <PasswordChangeConfirmation />
-            <AuthRedirectText
-              text="Already a hooman?"
-              linkText="Sign in"
-              linkHref="/auth/signin"
-              className="mt-8"
-            />
-          </div>
-        </div>
+        <NewPassInput />
       </div>
       <FooterAuth />
     </div>
