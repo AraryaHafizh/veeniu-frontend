@@ -19,7 +19,5 @@ function MainContent({ children }: { children: React.ReactNode }) {
   const { open } = useSidebar();
   const padleft = open ? "" : "pl-5";
 
-  return (
-    <main className={`overflow-y-auto ${padleft} w-full`}>{children}</main>
-  );
+  return <main className={`overlay-y-auto ${padleft} w-full`}>{children}</main>;
 }
