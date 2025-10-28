@@ -1,17 +1,23 @@
-import { Button } from "@/components/ui/button";
+import { DashboardSheet } from "@/components/ui/dashboard-sheet";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import { SectionTitle } from "@/components/ui/dashboard-section-title";
+import { InputField } from "@/components/ui/inputfield";
+import { Button } from "@/components/ui/button";
 
 export default function OrganizerVoucker() {
   return (
-    <div className="mt-10 w-full pr-10">
-      <p>My events</p>
+    <section>
+      <SectionTitle title="My vouchers" />
       <div className="mt-10 flex justify-between">
         <Input type="text" placeholder="Search" className="w-[280px]"></Input>
-        <Link href="/dashboard/vouchers/create">
-          <Button type="button">Create</Button>
-        </Link>
+        <DashboardSheet trigger="Create" title="Create voucher">
+            <InputField id="voucherName" label="voucher name" />
+            <InputField id="voucherCategory" label="event parent" />
+            <InputField id="voucherDescription" label="voucher value" />
+            <InputField id="voucherDescription" label="voucher quantity" />
+            <Button className="w-full">create</Button>
+        </DashboardSheet>
       </div>
-    </div>
+    </section>
   );
 }

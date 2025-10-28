@@ -1,4 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
+import { SectionTitle } from "@/components/ui/dashboard-section-title";
 
 const data = {
   title: "My events",
@@ -111,8 +112,8 @@ const data = {
 
 export default function Dashboard() {
   return (
-    <div className="mt-10 w-full pr-10">
-      <p>Morning, Hooman</p>
+    <div>
+      <SectionTitle title="Morning, Hooman" />
       <div className="mt-20 flex gap-10">
         <div className="h-[160px] rounded-xl border-2 p-3 md:w-[300px]">
           Revenue

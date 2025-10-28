@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useSidebar } from "@/components/ui/sidebar";
-import { Minimize2, Maximize2 } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export function CustomTrigger() {
   const { toggleSidebar, open } = useSidebar();
@@ -27,9 +27,9 @@ export function CustomTrigger() {
         className="text-secondary border-secondary hover:bg-primary hover:border-primary cursor-pointer rounded-md border p-1.5 transition-all duration-300 hover:text-[var(--footer-text)]"
       >
         {open ? (
-          <Minimize2 className="h-4 w-4" />
+          <ChevronLeft className="h-4 w-4" />
         ) : (
-          <Maximize2 className="h-4 w-4" />
+          <ChevronRight className="h-4 w-4" />
         )}
       </button>
     </div>
