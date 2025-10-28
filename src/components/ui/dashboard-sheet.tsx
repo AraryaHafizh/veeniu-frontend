@@ -28,7 +28,7 @@ export function DashboardSheet({
           <SheetTitle>{title}</SheetTitle>
           {/* <SheetDescription>{description}</SheetDescription> */}
         </SheetHeader>
-        {children}
+        <div className="scroll-hidden space-y-5 overflow-y-auto px-5">{children}</div>
       </SheetContent>
     </Sheet>
   );

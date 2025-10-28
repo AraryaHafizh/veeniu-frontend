@@ -69,7 +69,7 @@ export const DataTable = ({
                 return (
                   <th
                     key={i}
-                    className={`px-4 text-lg font-bold text-[var(--footer-text)] ${align}`}
+                    className={`text-foreground px-4 text-lg font-bold ${align}`}
                   >
                     {col}
                   </th>
@@ -93,7 +93,7 @@ export const DataTable = ({
                   return (
                     <td
                       key={ci}
-                      className={`max-w-[300px] truncate overflow-hidden px-4 py-2 ${align} text-sm font-light whitespace-nowrap text-[var(--footer-text)]`}
+                      className={`max-w-[300px] truncate overflow-hidden px-4 py-2 ${align} text-foreground text-sm font-light whitespace-nowrap`}
                     >
                       {lowerKey === "status" ? (
                         <TableStatus
