@@ -1,11 +1,12 @@
+"use client";
+
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import { TicketCard } from "@/components/ui/ticket-card";
-import { TicketDrawer } from "./TicketDrawer";
-// import Autoplay from "embla-carousel-autoplay";
+import Autoplay from "embla-carousel-autoplay";
 
 const data = {
   title: "RICH BRIAN - WHERE IS MY HEAD - ASIAN TOUR 2025",
@@ -29,12 +30,11 @@ export default function WelcomeSection() {
 const WelcomeCarousel = () => (
   <Carousel
     opts={{ loop: true }}
-
-    // plugins={[
-    //   Autoplay({
-    //     delay: 5500,
-    //   }),
-    // ]}
+    plugins={[
+      Autoplay({
+        delay: 4000,
+      }),
+    ]}
   >
     <CarouselContent>
       {Array.from({ length: 5 }).map((_, i) => (

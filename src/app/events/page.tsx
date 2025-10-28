@@ -10,7 +10,7 @@ export default function Event() {
       <Navbar />
       <UserInteraction />
       <EventList />
-      <div className="mt-30 mb-20 flex justify-center">
+      <div className="mt-10 mb-10 flex justify-center md:mt-20 md:mb-40">
         <Pagination page="1" />
       </div>
       <Footer />
