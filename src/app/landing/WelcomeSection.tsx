@@ -5,6 +5,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { eventCardProps } from "@/components/ui/event-card";
 import { TicketCard } from "@/components/ui/ticket-card";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -18,48 +19,55 @@ const data = {
   desc: "Rich Brian, the globally acclaimed Indonesian rapper, is set to return to his homeland’s stage with renewed energy. After a successful international tour and captivating audiences with his authentic works, he will be holding a special concert in Jakarta.",
 };
 
-export default function WelcomeSection() {
+export default function WelcomeSection({
+  data,
+  isLoading,
+}: {
+  data: eventCardProps[];
+  isLoading: boolean;
+}) {
   return (
     <section className="md:min-h-[92vh]">
-      <WelcomeCarousel />
+      {isLoading ? <WelcomeCarouselEmpty /> : <WelcomeCarousel data={data} />}
       <UserTicket />
     </section>
   );
 }
 
-const WelcomeCarousel = () => (
+const WelcomeCarousel = ({ data }: { data: eventCardProps[] }) => (
   <Carousel
-    opts={{ loop: true }}
+    opts={{ loop: true, duration: 60 }}
     plugins={[
       Autoplay({
-        delay: 4000,
+        delay: 7000,
+        stopOnInteraction: false,
       }),
     ]}
   >
     <CarouselContent>
-      {Array.from({ length: 5 }).map((_, i) => (
+      {data.map((event, i) => (
         <CarouselItem key={i}>
           <div className="relative px-5 md:h-[65vh] md:px-[52px]">
             <img
-              src={data.thumbnail}
-              alt={data.title}
+              src={event.imageUrl}
+              alt={event.title}
               className="h-full w-full rounded-2xl object-cover"
             />
 
             <div className="absolute inset-0 mx-5 rounded-2xl bg-gradient-to-b from-transparent to-black/90 md:mx-[52px]" />
 
-            <div className="absolute inset-0 m-10 flex flex-col justify-end rounded-2xl text-[var(--footer-text)] md:mx-25 md:my-5">
-              <p className="font-bold md:text-5xl">{data.title}</p>
+            <div className="absolute inset-0 m-10 flex flex-col justify-end rounded-2xl text-[var(--footer-text)] select-none md:mx-25 md:my-5 md:select-all">
+              <p className="font-bold md:text-5xl">{event.title}</p>
 
               <div className="mt-10 hidden justify-between md:flex">
                 <div className="space-y-1 md:space-y-2">
-                  <p>{data.location}</p>
-                  <p>{data.date}</p>
-                  <p>{data.price}</p>
+                  <p>{event.location}</p>
+                  <p>{event.startDate}</p>
+                  <p>{event.price}</p>
                 </div>
 
                 <div className="w-[40%]">
-                  <p className="line-clamp-3">{data.desc}</p>
+                  <p className="line-clamp-3">{event.description}</p>
                 </div>
               </div>
             </div>
@@ -69,6 +77,31 @@ const WelcomeCarousel = () => (
     </CarouselContent>
   </Carousel>
 );
+
+export const WelcomeCarouselEmpty = () => {
+  return (
+    <div className="relative h-[210px] animate-pulse px-5 md:h-[65vh] md:px-[52px]">
+      <div className="h-full w-full rounded-2xl bg-[var(--container)] object-cover" />
+
+      <div className="absolute inset-0 m-10 flex flex-col justify-end rounded-2xl text-[var(--footer-text)] select-none md:mx-25 md:my-5">
+        <div className="bg-foreground/10 mb-6 h-10 w-1/3 rounded md:h-12 md:w-1/4" />
+
+        <div className="mt-8 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="space-y-2">
+            <div className="bg-foreground/10 h-3 w-24 rounded" />
+            <div className="bg-foreground/10 h-3 w-32 rounded" />
+            <div className="bg-foreground/10 h-3 w-20 rounded" />
+          </div>
+          <div className="hidden w-[40%] space-y-2 md:block">
+            <div className="bg-foreground/10 h-3 w-full rounded" />
+            <div className="bg-foreground/10 h-3 w-3/4 rounded" />
+            <div className="bg-foreground/10 h-3 w-2/3 rounded" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const UserTicket = () => {
   return (
