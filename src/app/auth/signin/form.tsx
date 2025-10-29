@@ -19,7 +19,6 @@ export const useSigninForm = () => {
 
   async function onSubmit(values: SigninFormValues) {
     await signin(values);
-    toast("✅ Submitted values:");
   }
 
   return { form, onSubmit, isPending };

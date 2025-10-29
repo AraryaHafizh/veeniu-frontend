@@ -7,6 +7,7 @@ import {
   SigninFormSchema,
   SignupFormSchema,
 } from "./formSchema";
+import { toast } from "sonner";
 
 export const useForgetPassword = () =>
   useMutation({
@@ -36,6 +37,13 @@ export const useSignin = () =>
       const { data } = await veeniuApi.post("/auth/login", body);
       return data;
     },
+    onSuccess: (data) => {
+      console.log(data);
+      toast("login success");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
 export const useSignup = () =>
@@ -43,6 +51,9 @@ export const useSignup = () =>
     mutationFn: async (body: z.infer<typeof SignupFormSchema>) => {
       const { data } = await veeniuApi.post("/auth/register", body);
       return data;
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 

@@ -8,7 +8,7 @@ export const SigninFormSchema = z.object({
 export type SigninFormValues = z.infer<typeof SigninFormSchema>;
 
 export const SignupFormSchema = z.object({
-  username: z.string().min(4, "Username must be at least 4 characters"),
+  name: z.string().min(4, "Username must be at least 4 characters"),
   email: z.email(),
   password: z.string().min(8, "Password must be at least 8 characters"),
   referralCode: z

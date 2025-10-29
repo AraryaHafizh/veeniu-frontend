@@ -14,7 +14,7 @@ export const useSignupForm = () => {
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       referralCode: "",
@@ -23,6 +23,7 @@ export const useSignupForm = () => {
 
   async function onSubmit(values: SignupFormValues) {
     await signup(values);
+
     setOpenDialog(true);
   }
 
@@ -37,7 +38,7 @@ export const useOrgSignupForm = () => {
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       referralCode: "",
