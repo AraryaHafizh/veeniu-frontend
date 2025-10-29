@@ -1,27 +1,68 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { InputField } from "@/components/ui/inputfield";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LoadingAnimation } from "@/components/ui/loading-animation";
 import { AuthRedirectText } from "@/components/ui/redirect-text";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSigninForm } from "./form";
 
 export default function SigninInput() {
-  const router = useRouter();
+  const { form, onSubmit, isPending } = useSigninForm();
 
   return (
     <section className="w-sm space-y-8 px-5 md:px-0">
-      <div className="space-y-5">
-        <InputField id="email" label="Email" />
-        <InputField id="password" label="Password" type="password" />
-      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <Link href="/auth/forget-password" className="text-foreground/70 text-sm">
-        Forget password?
-      </Link>
-      <Button className="mt-4 w-full" onClick={() => router.push("/")}>
-        Sign in
-      </Button>
+          <Link
+            href="/auth/forget-password"
+            className="text-foreground/70 flex pt-5 text-right text-sm"
+          >
+            Forget password?
+          </Link>
+
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {}
+            {isPending ? <LoadingAnimation /> : "Sign in"}
+          </Button>
+        </form>
+      </Form>
+
       <AuthRedirectText
         text="New to Veeniu?"
         linkText="Sign up"
