@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
+import { useAuth } from "./hooks";
 
 interface CreateAccountConfirmationProps {
   open: boolean;
@@ -102,6 +103,7 @@ export const SendLinkConfirmation = ({
 };
 
 export const SignoutConfirmation = ({ children }: { children: ReactNode }) => {
+  const { removeAuth } = useAuth();
   const router = useRouter();
   return (
     <AlertDialog>
@@ -117,7 +119,12 @@ export const SignoutConfirmation = ({ children }: { children: ReactNode }) => {
 
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => router.replace("/auth/signin")}>
+          <AlertDialogAction
+            onClick={() => {
+              router.replace("/auth/signin");
+              removeAuth();
+            }}
+          >
             Sign out
           </AlertDialogAction>
         </AlertDialogFooter>

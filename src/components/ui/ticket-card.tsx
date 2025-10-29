@@ -17,13 +17,13 @@ export const TicketCard = ({
 }: TicketCardProps) => {
   return (
     <section
-      className={`relative rounded-xl bg-[var(--container)] p-3 transition-all duration-300 ease-in-out ${isFinished ? "brightness-80" : "blur-none"} ${price ? "hover:cursor-pointer hover:bg-[var(--container-hover)]" : ""}`}
+      className={`relative rounded-xl bg-[var(--container)] p-3 transition-all duration-300 ease-in-out ${isFinished ? "brightness-80" : "blur-none"} ${price ? "hover:cursor-pointer hover:bg-[var(--container-hover)]" : ""} select-none`}
     >
       <div
         className="absolute top-0 left-[80%] h-full w-[5px]"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(to bottom, #ed3e2750 0 15px,transparent 15px 20px)",
+            "repeating-linear-gradient(to bottom, var(--ticket-stripe) 0 15px,transparent 15px 20px)",
         }}
       ></div>
 

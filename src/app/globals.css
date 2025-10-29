@@ -82,6 +82,8 @@
   --footer-text: #fdf4e3;
   --container: #eee4d0;
   --container-hover: #e6dece;
+
+  --ticket-stripe: #100f0d50;
 }
 
 .dark {
@@ -122,6 +124,8 @@
   --footer-text: #fdf4e3;
   --container: #242321;
   --container-hover: #313131;
+
+  --ticket-stripe: #fdf4e350;
 }
 
 @layer base {
