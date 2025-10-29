@@ -1,8 +1,10 @@
-import { Navbar } from "@/components/ui/navbar";
-import { UserInteraction } from "./UserInteraction";
-import { EventList } from "./EventList";
-import { Pagination } from "@/components/ui/pagination";
+"use client";
+
 import { Footer } from "@/components/ui/footer";
+import { Navbar } from "@/components/ui/navbar";
+import { Pagination } from "@/components/ui/pagination";
+import { EventList } from "./EventList";
+import { UserInteraction } from "./UserInteraction";
 
 export default function Event() {
   return (
@@ -11,7 +13,7 @@ export default function Event() {
       <UserInteraction />
       <EventList />
       <div className="mt-10 mb-10 flex justify-center md:mt-20 md:mb-40">
-        <Pagination page="1" />
+        <Pagination />
       </div>
       <Footer />
     </main>

@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { categories, cities } from "@/lib/const-data";
 import { ListFilter } from "lucide-react";
 import { useState } from "react";
 
@@ -29,57 +30,6 @@ interface EventFilterProps {
   width?: string;
 }
 
-const data = {
-  categoryData: [
-    "All",
-    "Religion & Spirituality",
-    "School & Campus Activities",
-    "Business & Finance",
-    "Fashion & Beauty",
-    "Hobbies & Lifestyle",
-    "Family & Children",
-    "Health & Fitness",
-    "Comedy & Performance",
-    "Environment & Sustainability",
-    "Food & Beverages",
-    "Media & Entertainment",
-    "Music",
-    "Sports & Fitness",
-    "Automotive",
-    "Education",
-    "Self-Development",
-    "Travel & Nature",
-    "Outdoor",
-    "Science & Technology",
-    "Art & Culture",
-    "Social & Politics",
-    "Others",
-  ],
-  cities: [
-    "All",
-    "Jakarta",
-    "Bandung",
-    "Surabaya",
-    "Yogyakarta",
-    "Bali (Denpasar)",
-    "Medan",
-    "Semarang",
-    "Makassar",
-    "Palembang",
-    "Malang",
-    "Bekasi",
-    "Tangerang",
-    "Depok",
-    "Bogor",
-    "Batam",
-    "Manado",
-    "Padang",
-    "Balikpapan",
-    "Pontianak",
-    "Banjarmasin",
-  ],
-};
-
 export const UserInteraction = () => {
   const [category, setCategory] = useState("Category");
   const [city, setCity] = useState("Location");
@@ -87,14 +37,14 @@ export const UserInteraction = () => {
     {
       title: "Category",
       selected: category,
-      data: data.categoryData,
+      data: categories,
       position: category,
       setPosition: setCategory,
     },
     {
       title: "Location",
       selected: city,
-      data: data.cities,
+      data: cities,
       position: city,
       setPosition: setCity,
     },
