@@ -1,13 +1,17 @@
 import { veeniuApi } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import z from "zod";
+import { create } from "zustand";
 import {
   ForgetPassFormSchema,
   NewPassFormSchema,
   SigninFormSchema,
   SignupFormSchema,
 } from "./formSchema";
-import { toast } from "sonner";
+
+const defaultMessage = "Oops, something went wrong";
 
 export const useForgetPassword = () =>
   useMutation({
@@ -15,36 +19,49 @@ export const useForgetPassword = () =>
       const { data } = await veeniuApi.post("/auth/forgot-password", body);
       return data;
     },
-    // onSuccess: () => {
-    //   alert("send email success");
-    // },
-    // onError: () => {
-    //   alert("send email failed");
-    // },
-  });
-
-export const useNewForgetPassword = () =>
-  useMutation({
-    mutationFn: async (body: z.infer<typeof NewPassFormSchema>) => {
-      const { data } = await veeniuApi.post("/auth/new-password", body);
-      return data;
+    onError: (err: any) => {
+      const message = err?.response?.data?.message;
+      toast(message || defaultMessage);
     },
   });
 
-export const useSignin = () =>
+export const useNewForgetPassword = (token: string) =>
   useMutation({
+    mutationFn: async (body: z.infer<typeof NewPassFormSchema>) => {
+      const { data } = await veeniuApi.patch("/auth/new-password", body, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return data;
+    },
+    onError: (err: any) => {
+      const message = err?.response?.data?.message;
+      toast(message || defaultMessage);
+    },
+  });
+
+export const useSignin = () => {
+  const { storeAuth } = useAuth();
+  const router = useRouter();
+
+  return useMutation({
     mutationFn: async (body: z.infer<typeof SigninFormSchema>) => {
       const { data } = await veeniuApi.post("/auth/login", body);
       return data;
     },
     onSuccess: (data) => {
-      console.log(data);
-      toast("login success");
+      storeAuth(data.accessToken, data.role, data);
+      if (data.role === "CUSTOMER") {
+        router.replace("/");
+      } else {
+        router.replace("/dashboard");
+      }
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (err: any) => {
+      const message = err?.response?.data?.message;
+      toast(message || defaultMessage);
     },
   });
+};
 
 export const useSignup = () =>
   useMutation({
@@ -52,15 +69,49 @@ export const useSignup = () =>
       const { data } = await veeniuApi.post("/auth/register", body);
       return data;
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (err: any) => {
+      const message = err?.response?.data?.message;
+      toast(message || defaultMessage);
     },
   });
 
 export const useOrgSignup = () =>
   useMutation({
     mutationFn: async (body: z.infer<typeof SignupFormSchema>) => {
-      const { data } = await veeniuApi.post("/auth/register-organizer", body);
+      const payload = { ...body, role: "ORGANIZER" };
+      const { data } = await veeniuApi.post("/auth/register", payload);
       return data;
     },
+    onError: (err: any) => {
+      const message = err?.response?.data?.message;
+      toast(message || defaultMessage);
+    },
   });
+
+// =============================================================
+
+interface AuthState {
+  token: string | null;
+  role: string | null;
+  user: any | null;
+  storeAuth: (token: string, user: any, role: string) => void;
+  removeAuth: () => void;
+}
+
+export const useAuth = create<AuthState>((set) => ({
+  token: null,
+  user: null,
+  role: null,
+  storeAuth: (token, role, user) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", role);
+    localStorage.setItem("user", JSON.stringify(user));
+    set({ token, user, role });
+  },
+  removeAuth: () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("user");
+    set({ token: null, user: null, role: null });
+  },
+}));

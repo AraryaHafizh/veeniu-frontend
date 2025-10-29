@@ -23,7 +23,6 @@ export const useSignupForm = () => {
 
   async function onSubmit(values: SignupFormValues) {
     await signup(values);
-
     setOpenDialog(true);
   }
 
@@ -41,7 +40,6 @@ export const useOrgSignupForm = () => {
       name: "",
       email: "",
       password: "",
-      referralCode: "",
     },
   });
 
