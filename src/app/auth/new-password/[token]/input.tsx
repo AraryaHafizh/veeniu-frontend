@@ -10,14 +10,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AuthRedirectText } from "@/components/ui/redirect-text";
-import { PasswordChangeConfirmation } from "../PopupConfirmation";
-import { useNewPassForm } from "./form";
 import { LoadingAnimation } from "@/components/ui/loading-animation";
+import { AuthRedirectText } from "@/components/ui/redirect-text";
+import { PasswordChangeConfirmation } from "../../PopupConfirmation";
+import { useNewPassForm } from "./form";
 
-export default function NewPassInput() {
+export default function NewPassInput({ token }: { token: string }) {
   const { form, onSubmit, openDialog, setOpenDialog, isPending } =
-    useNewPassForm();
+    useNewPassForm(token);
 
   return (
     <section className="w-sm space-y-8 px-5 md:px-0">

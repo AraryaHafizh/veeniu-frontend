@@ -3,12 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { NewPassFormSchema, NewPassFormValues } from "../formSchema";
-import { useNewForgetPassword } from "../hooks";
+import { NewPassFormSchema, NewPassFormValues } from "../../formSchema";
+import { useNewForgetPassword } from "../../hooks";
 
-export const useNewPassForm = () => {
+export const useNewPassForm = (token:string) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const { mutateAsync: newPassword, isPending } = useNewForgetPassword();
+  const { mutateAsync: newPassword, isPending } = useNewForgetPassword(token);
 
   const form = useForm<NewPassFormValues>({
     resolver: zodResolver(NewPassFormSchema),
