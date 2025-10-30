@@ -1,6 +1,5 @@
 import { CategoryCard } from "@/components/ui/category-card";
-
-const categories = ["Music", "Art", "Food", "Hobbies", "Sports", "Comedy"];
+import { categories } from "@/lib/const-data";
 
 export const CategoryList = () => (
   <section className="mt-10 space-y-4 md:mt-32">

@@ -1,5 +1,6 @@
 "use client";
 
+import { eventCardProps } from "@/components/ui/event-card";
 import { CircleUserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 
