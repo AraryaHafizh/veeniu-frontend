@@ -49,7 +49,7 @@ export const useSignin = () => {
       return data;
     },
     onSuccess: (data) => {
-      storeAuth(data.accessToken, data.role, data);
+      storeAuth(data.accessToken, data);
       if (data.role === "CUSTOMER") {
         router.replace("/");
       } else {
@@ -92,26 +92,22 @@ export const useOrgSignup = () =>
 
 interface AuthState {
   token: string | null;
-  role: string | null;
   user: any | null;
-  storeAuth: (token: string, user: any, role: string) => void;
+  storeAuth: (token: string, user: any) => void;
   removeAuth: () => void;
 }
 
 export const useAuth = create<AuthState>((set) => ({
   token: null,
   user: null,
-  role: null,
-  storeAuth: (token, role, user) => {
+  storeAuth: (token, user) => {
     localStorage.setItem("token", token);
-    localStorage.setItem("role", role);
     localStorage.setItem("user", JSON.stringify(user));
-    set({ token, user, role });
+    set({ token, user });
   },
   removeAuth: () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("role");
     localStorage.removeItem("user");
-    set({ token: null, user: null, role: null });
+    set({ token: null, user: null });
   },
 }));
