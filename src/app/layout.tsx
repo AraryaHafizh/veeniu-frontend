@@ -8,6 +8,7 @@ import { Sora } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { Suspense } from "react";
 
 const sora = Sora({
   variable: "--font-Sora",
@@ -34,9 +35,11 @@ export default function RootLayout({
         <SessionProvider>
           <QueryProvider>
             <NuqsAdapter>
-              <Navbar />
-              {children}
-              <Footer />
+              <Suspense>
+                <Navbar />
+                {children}
+                <Footer />
+              </Suspense>
             </NuqsAdapter>
           </QueryProvider>
         </SessionProvider>

@@ -1,11 +1,11 @@
 "use client";
 
-import { eventData } from "@/lib/const-data";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { EventProps } from "@/props/event.props";
 import { useRouter } from "next/navigation";
 import { SectionText } from "./ui/section-text";
 
-export const EventCard = () => {
+export const EventCard = ({ eventData }: { eventData: EventProps }) => {
   const router = useRouter();
   return (
     <div

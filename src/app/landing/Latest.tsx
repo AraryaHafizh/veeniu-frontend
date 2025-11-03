@@ -2,8 +2,9 @@ import { EventCard } from "@/components/event-card";
 import { SectionTitle } from "@/components/ui/section-title";
 import { TextLink } from "@/components/ui/textlink";
 import { Wrapper } from "@/components/ui/wrapper";
+import { EventProps } from "@/props/event.props";
 
-export const Latest = () => {
+export const Latest = ({ eventData }: { eventData: EventProps[] }) => {
   return (
     <section className="flex w-full justify-center">
       <Wrapper>
@@ -13,9 +14,9 @@ export const Latest = () => {
         </div>
 
         <div className="mt-5 grid gap-5 md:grid-cols-3 xl:grid-cols-4">
-          {Array.from({ length: 12 }).map((_, i) => (
+          {eventData.map((event, i) => (
             <div key={i}>
-              <EventCard />
+              <EventCard eventData={event}/>
             </div>
           ))}
         </div>

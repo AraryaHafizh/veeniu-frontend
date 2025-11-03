@@ -20,12 +20,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { useCreateEvent } from "../events/useCreateEvent";
 
-export const Sheet = () => (
-  <DashboardSheet trigger="Create" title="Create new ticket">
-    <CreateVoucherForm />
-  </DashboardSheet>
-);
+export const Sheet = () => {
+  const { mutateAsync, isPending, open, setOpen } = useCreateEvent();
+  return (
+    <DashboardSheet
+      trigger="Create"
+      title="Create new ticket"
+      open={open}
+      setOpen={setOpen}
+    >
+      <CreateVoucherForm />
+    </DashboardSheet>
+  );
+};
 
 const createVoucherSchema = z.object({
   name: z
