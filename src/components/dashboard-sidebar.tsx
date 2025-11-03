@@ -1,0 +1,64 @@
+"use client";
+
+import { LogOut } from "lucide-react";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { sidebarData } from "@/lib/const-data";
+import { useSidebarStore } from "@/store/sidebar-store";
+import Link from "next/link";
+import { SignoutConfirmation } from "./popup-confirmation";
+import { SidebarTrigger } from "./sidebar-trigger";
+
+export function DashboardSidebar() {
+  const { index, setIndex } = useSidebarStore();
+
+  return (
+    <Sidebar variant="floating" collapsible="icon">
+      <SidebarTrigger />
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu className="my-5">
+              {sidebarData.map((item, i) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    className={`transition-all duration-300 hover:text-white ${index == i && "bg-primary/20 dark:bg-primary/50"}`}
+                    onClick={() => setIndex(i)}
+                  >
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <SignoutConfirmation>
+          <SidebarMenuButton
+            asChild
+            className="hover:bg-destructive cursor-pointer transition-all duration-300 hover:text-white"
+          >
+            <span>
+              <LogOut />
+              Sign out
+            </span>
+          </SidebarMenuButton>
+        </SignoutConfirmation>
+      </SidebarFooter>
+    </Sidebar>
+  );
+}

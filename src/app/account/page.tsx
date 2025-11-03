@@ -1,21 +1,30 @@
-import { Footer } from "@/components/ui/footer";
-import { Navbar } from "@/components/ui/navbar";
-import AccountContent from "./AccountContent";
+import { auth } from "@/auth";
+import { Wrapper } from "@/components/ui/wrapper";
+import { redirect } from "next/navigation";
+import { Data } from "./Data";
+import { Header } from "./Header";
+import { Points } from "./Points";
+import { ReferenceCode } from "./ReferenceCode";
+import { Tickets } from "./Tickets";
+import { TransactionHistory } from "./TransactionHistory";
 
-const Account = () => {
+const Account = async () => {
+  const session = await auth();
+
+  if (!session?.user.id) return redirect("/auth/signin");
+
   return (
-    <main>
-      <Navbar />
-      <div className="mb-10 items-center px-5 md:mb-20 md:flex md:px-[52px]">
-        <div className="flex-[30%]">
-          <p className="text-primary text-3xl font-bold md:text-5xl">
-            Good morning, <br />
-            Hooman
-          </p>
+    <main className="flex w-full justify-center">
+      <Wrapper className="mt-[100px]">
+        <Header />
+        <Data />
+        <div className="flex gap-10">
+          <ReferenceCode />
+          <Points />
         </div>
-        <AccountContent />
-      </div>
-      <Footer />
+        <Tickets />
+        <TransactionHistory />
+      </Wrapper>
     </main>
   );
 };

@@ -1,23 +1,22 @@
-import { DashboardSheet } from "@/components/ui/dashboard-sheet";
-import { Input } from "@/components/ui/input";
-import { SectionTitle } from "@/components/ui/dashboard-section-title";
-import { InputField } from "@/components/ui/inputfield";
-import { Button } from "@/components/ui/button";
+"use client";
 
-export default function OrganizerVoucker() {
+import { DataPagination } from "@/components/data-pagination";
+import { Input } from "@/components/ui/input";
+import { SectionTitle } from "@/components/ui/section-title";
+import { Sheet } from "./Sheet";
+
+export default function page() {
   return (
     <section>
-      <SectionTitle title="My vouchers" />
-      <div className="mt-10 flex justify-between">
+      <SectionTitle className="mt-10">My vouchers</SectionTitle>
+      <div className="mt-10 mb-5 flex justify-between">
         <Input type="text" placeholder="Search" className="w-[280px]"></Input>
-        <DashboardSheet trigger="Create" title="Create voucher">
-            <InputField id="voucherName" label="voucher name" />
-            <InputField id="voucherCategory" label="event parent" />
-            <InputField id="voucherDescription" label="voucher value" />
-            <InputField id="voucherDescription" label="voucher quantity" />
-            <Button className="w-full">create</Button>
-        </DashboardSheet>
+        <Sheet />
       </div>
+      <section className="my-5 grid w-full grid-cols-1">
+        <DashboardTable {...dashboardTableData} />
+      </section>
+      <DataPagination />
     </section>
   );
 }

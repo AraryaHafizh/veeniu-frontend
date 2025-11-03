@@ -1,23 +1,28 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import React from "react";
-import { FooterAuth } from "../../FooterAuth";
-import NewPassInput from "./input";
+import { Forms } from "./Forms";
+import { Greet } from "./Greet";
 
 interface NewPasswordProps {
   params: Promise<{ token: string }>;
 }
 
-export default function NewPasswordPage({ params }: NewPasswordProps) {
+const NewPassword = async ({ params }: NewPasswordProps) => {
   const { token } = React.use(params);
+  const session = await auth();
+
+  if (session?.user.role === "ORGANIZER") return redirect("/dashboard");
+  else if (session?.user.id) return redirect("/");
 
   return (
-    <div className="relative flex h-screen flex-col items-center justify-center">
-      <div className="flex flex-col items-center justify-center text-center md:flex-row md:space-x-28 md:text-left">
-        <p className="text-primary mb-10 text-5xl font-black md:mb-0 md:w-[20vw]">
-          Insert your <br /> new password
-        </p>
-        <NewPassInput token={token} />
-      </div>
-      <FooterAuth />
-    </div>
+    <main className="flex h-screen w-screen items-center justify-center">
+      <section className="bg-card w-[80%] items-center space-y-5 rounded-lg border p-5 md:flex md:h-[60%] md:w-[60%] md:space-y-0 md:px-15">
+        <Greet />
+        <Forms />
+      </section>
+    </main>
   );
-}
+};
+
+export default NewPassword;

@@ -1,6 +1,6 @@
 "use client";
-import { AppSidebar } from "@/components/ui/app-sidebar";
-import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
+import { DashboardSidebar } from "@/components/dashboard-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function DashboardLayout({
   children,
@@ -9,7 +9,7 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <DashboardSidebar />
       <main className="overlay-y-auto w-full p-5">{children}</main>
     </SidebarProvider>
   );

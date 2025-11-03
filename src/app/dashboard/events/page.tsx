@@ -1,30 +1,52 @@
-import { Button } from "@/components/ui/button";
-import { SectionTitle } from "@/components/ui/dashboard-section-title";
-import { DashboardSheet } from "@/components/ui/dashboard-sheet";
-import { Input } from "@/components/ui/input";
-import { InputField } from "@/components/ui/inputfield";
+"use client";
 
-export default function OrganizerEvent() {
+import { DataPagination } from "@/components/data-pagination";
+import { Input } from "@/components/ui/input";
+import { LoadingScreen } from "@/components/ui/loading-animation";
+import { SectionTitle } from "@/components/ui/section-title";
+import { Sheet } from "./Sheet";
+import { useEvents } from "./useEvents";
+import { Table } from "@/components/table";
+
+const tableTitle = [
+  "No",
+  "Title",
+  "Category",
+  "Location",
+  "Total seats",
+  "Start date",
+];
+
+export default function page() {
+  const { data: eventData, isPending } = useEvents();
+  const dashboardTableData = {
+    title: "",
+    columns: [
+      { key: "no", title: "No" },
+      { key: "title", title: "Event Title" },
+      { key: "category", title: "Category" },
+      { key: "location", title: "Location" },
+      { key: "startDate", title: "Date" },
+      { key: "totalSeats", title: "Total seats" },
+      { key: "availableSeats", title: "Available seats" },
+      { key: "action", title: "Action" },
+    ],
+    data: eventData?.data ?? [],
+  };
+
+  if (isPending) return <LoadingScreen />;
+
   return (
     <section>
-      <SectionTitle title="My events" />
-      <div className="mt-10 flex justify-between">
-        <Input type="text" placeholder="Search" className="w-[280px]"></Input>
-        <DashboardSheet trigger="Create" title="Create event">
-          <InputField id="eventName" label="event name" />
-          <InputField id="eventCategory" label="event category" />
-          <InputField id="eventDescription" label="event description" />
-          <InputField id="eventDescription" label="start date" />
-          <InputField id="eventDescription" label="end date" />
-          <InputField id="eventDescription" label="start time" />
-          <InputField id="eventDescription" label="end time" />
-          <InputField id="eventDescription" label="location" />
-          <InputField id="eventDescription" label="city" />
-          <InputField id="eventDescription" label="latitude" />
-          <InputField id="eventDescription" label="longitude" />
-          <Button className="w-full">create</Button>
-        </DashboardSheet>
+      <SectionTitle className="mt-10">My events</SectionTitle>
+      <div className="mt-10 mb-5 flex justify-between">
+        <Input type="text" placeholder="Search" className="w-[280px]" />
+        <Sheet />
       </div>
+      <section className="my-5 grid w-full grid-cols-1">
+        <Table {...dashboardTableData} />
+      </section>
+      <DataPagination />
     </section>
   );
 }
