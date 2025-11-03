@@ -1,23 +1,21 @@
-import { DashboardSheet } from "@/components/ui/dashboard-sheet";
-import { Input } from "@/components/ui/input";
-import { SectionTitle } from "@/components/ui/dashboard-section-title";
-import { InputField } from "@/components/ui/inputfield";
-import { Button } from "@/components/ui/button";
+"use client";
 
-export default function OrganizerTicket() {
+import { DataPagination } from "@/components/data-pagination";
+import { Input } from "@/components/ui/input";
+import { SectionTitle } from "@/components/ui/section-title";
+import { Sheet } from "./Sheet";
+
+export default function page() {
   return (
     <section>
-      <SectionTitle title="My tickets" />
-      <div className="mt-10 flex justify-between">
+      <SectionTitle className="mt-10">My tickets</SectionTitle>
+      <div className="mt-10 mb-5 flex justify-between">
         <Input type="text" placeholder="Search" className="w-[280px]"></Input>
-        <DashboardSheet trigger="Create" title="Create ticket">
-          <InputField id="ticketName" label="ticket name" />
-          <InputField id="ticketCategory" label="event parent" />
-          <InputField id="ticketDescription" label="ticket price" />
-          <InputField id="ticketDescription" label="ticket quantity" />
-          <Button className="w-full">create</Button>
-        </DashboardSheet>
+        <Sheet />
       </div>
+      <section className="my-5 grid w-full grid-cols-1">
+      </section>
+      <DataPagination />
     </section>
   );
 }

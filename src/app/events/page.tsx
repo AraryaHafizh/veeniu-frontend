@@ -1,21 +1,16 @@
-"use client";
-
-import { Footer } from "@/components/ui/footer";
-import { Navbar } from "@/components/ui/navbar";
-import { Pagination } from "@/components/ui/pagination";
-import { EventList } from "./EventList";
-import { UserInteraction } from "./UserInteraction";
+import { Wrapper } from "@/components/ui/wrapper";
+import { EventsList } from "./EventsList";
+import Toolbar from "./Toolbar";
+import { DataPagination } from "@/components/data-pagination";
 
 export default function Event() {
   return (
-    <main className="container mx-auto max-w-[1920px]">
-      <Navbar />
-      <UserInteraction />
-      <EventList />
-      <div className="mt-10 mb-10 flex justify-center md:mt-20 md:mb-40">
-        <Pagination />
-      </div>
-      <Footer />
+    <main>
+      <Wrapper className="mt-[100px]">
+        <Toolbar />
+        <EventsList />
+        <DataPagination />
+      </Wrapper>
     </main>
   );
 }
