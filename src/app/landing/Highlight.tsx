@@ -9,20 +9,21 @@ import {
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
 import { TextLink } from "@/components/ui/textlink";
-import { eventData, ticketsData } from "@/lib/const-data";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { ticketsData } from "@/lib/const-data";
+import { formatDate } from "@/lib/utils";
+import { EventProps } from "@/props/event.props";
 import Autoplay from "embla-carousel-autoplay";
 
-export const Highlight = () => {
+export const Highlight = ({ eventData }: { eventData: EventProps[] }) => {
   return (
-    <section className="h-[1080px] pt-[70px]">
-      <LatestCarousel />
+    <section className="pt-[70px]">
+      <LatestCarousel eventData={eventData} />
       <UserTickets />
     </section>
   );
 };
 
-const LatestCarousel = () => (
+const LatestCarousel = ({ eventData }: { eventData: EventProps[] }) => (
   <Carousel
     opts={{
       loop: true,
@@ -36,35 +37,30 @@ const LatestCarousel = () => (
     ]}
   >
     <CarouselContent>
-      {Array.from({ length: 5 }).map((_, index) => (
+      {eventData.map((event, index) => (
         <CarouselItem key={index}>
           <div className="relative md:h-[700px]">
-            <img
-              src={eventData.imageUrl}
-              className="h-full w-full object-cover"
-            />
+            <img src={event.imageUrl} className="h-full w-full object-cover" />
 
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90" />
 
             <div className="absolute inset-0 flex flex-col justify-end px-20 py-10 text-[var(--footer-text)] select-none">
-              <p className="text-5xl font-bold">{eventData.title}</p>
+              <p className="text-5xl font-bold">{event.title}</p>
 
               <div className="mt-10 hidden justify-between md:flex">
                 <div className="space-y-1 md:space-y-2">
+                  <SectionText variant="default">{event.location}</SectionText>
                   <SectionText variant="default">
-                    {eventData.location}
+                    {formatDate(event.startDate)}
                   </SectionText>
-                  <SectionText variant="default">
-                    {formatDate(eventData.startDate)}
-                  </SectionText>
-                  <SectionText variant="default">
-                    {formatCurrency(eventData.price)}
-                  </SectionText>
+                  {/* <SectionText variant="default">
+                    {formatCurrency(event.price)}
+                  </SectionText> */}
                 </div>
 
                 <div className="w-[40%]">
                   <SectionText variant="default" className="line-clamp-4">
-                    {eventData.description}
+                    {event.description}
                   </SectionText>
                 </div>
               </div>
