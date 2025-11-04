@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import z from "zod";
-import { signinSchema } from "./Forms";
+import { signinSchema } from "../../app/auth/signin/Forms";
 import { toast } from "sonner";
 
 export const useSignin = () => {
@@ -26,7 +26,7 @@ export const useSignin = () => {
       }
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      toast(error.response?.data.message ?? "Something went wrong!");
+      toast.error(error.response?.data.message ?? "Something went wrong!");
     },
   });
 };

@@ -1,8 +1,8 @@
+import { NewPasswordSchema } from "@/app/auth/new-password/[token]/Forms";
 import { veeniuApi } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import z from "zod";
-import { NewPasswordSchema } from "./Forms";
 
 export const useNewPassword = () => {
   const [openDialog, setOpenDialog] = useState(false);

@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import z from "zod";
-import { signupSchema } from "./Forms";
+import { signupSchema } from "../../app/auth/signup/Forms";
 import { toast } from "sonner";
 
 export const useSignup = () => {
@@ -18,7 +18,7 @@ export const useSignup = () => {
       setOpenDialog(true);
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      toast(error.response?.data.message ?? "Something went wrong!");
+      toast.error(error.response?.data.message ?? "Something went wrong!");
     },
   });
 

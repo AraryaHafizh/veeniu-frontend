@@ -5,7 +5,7 @@ interface TicketCardProps {
   ticketData: {
     name: string;
   };
-  eventData: {
+  eventCard: {
     location: string;
     startDate: string | Date;
   };
@@ -16,7 +16,7 @@ interface TicketCardProps {
 
 export const TicketCard = ({
   ticketData,
-  eventData,
+  eventCard,
   width = "w-[330px]",
   onPress,
   status = false,
@@ -30,9 +30,9 @@ export const TicketCard = ({
     <div onClick={onPress} className={containerClasses}>
       <div className={clsx(status && "blur-xs")}>
         <p className="line-clamp-2 font-semibold">{ticketData.name}</p>
-        <SectionText className="mt-2 text-sm">{eventData.location}</SectionText>
+        <SectionText className="mt-2 text-sm">{eventCard.location}</SectionText>
         <SectionText className="text-sm">
-          {formatDate(eventData.startDate)}
+          {formatDate(eventCard.startDate)}
         </SectionText>
       </div>
 

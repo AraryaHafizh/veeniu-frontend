@@ -129,7 +129,7 @@ export const SignoutConfirmation = ({ children }: { children: ReactNode }) => {
               useSidebarStore.getState().reset();
               router.replace("/");
             }}
-            className="bg-input hover:bg-destructive active:bg-destructive border-destructive text-destructive border hover:text-white active:text-white"
+            className="bg-transparant hover:bg-destructive active:bg-destructive border-destructive text-destructive border hover:text-white active:text-white"
           >
             Sign out
           </AlertDialogAction>

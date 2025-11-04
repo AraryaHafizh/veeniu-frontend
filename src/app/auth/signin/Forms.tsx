@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useSignin } from "./useSignin";
+import { useSignin } from "../../../hooks/auth/useSignin";
 
 export const signinSchema = z.object({
   email: z.email(),

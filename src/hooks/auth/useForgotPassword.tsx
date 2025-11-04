@@ -1,8 +1,8 @@
+import { forgotSchema } from "@/app/auth/forgot-password/Forms";
 import { veeniuApi } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import z from "zod";
-import { forgotSchema } from "./Forms";
 
 export const useForgotPassword = () => {
   const [openDialog, setOpenDialog] = useState(false);

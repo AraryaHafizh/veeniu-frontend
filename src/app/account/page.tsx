@@ -13,13 +13,15 @@ const Account = async () => {
 
   if (!session?.user.id) return redirect("/auth/signin");
 
+  const userData = session.user;
+
   return (
     <main className="flex w-full justify-center">
       <Wrapper className="mt-[100px]">
         <Header />
-        <Data />
+        <Data data={userData} />
         <div className="flex gap-10">
-          <ReferenceCode />
+          <ReferenceCode data={userData}/>
           <Points />
         </div>
         <Tickets />

@@ -1,24 +1,19 @@
-import React from "react";
-import { Cart } from "./Cart";
-import { Data } from "./Data";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import EventDetail from "./EventDetail";
 
-interface EventDetailProps {
+interface EventPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function EventDetail({ params }: EventDetailProps) {
-  const { slug } = React.use(params);
+export default async function Page({ params }: EventPageProps) {
+  const { slug } = await params;
 
-  return (
-    <main>
-      <section className="mt-[70px] flex h-min gap-10">
-        <div className="flex-[70%]">
-          <Data />
-        </div>
-        <div className="flex-[30%]">
-          <Cart />
-        </div>
-      </section>
-    </main>
-  );
+  const session = await auth();
+
+  if (session?.user.role === "ORGANIZER") {
+    return redirect("/dashboard");
+  }
+
+  return <EventDetail slug={slug} />;
 }

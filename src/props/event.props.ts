@@ -1,17 +1,38 @@
-export interface EventProps {
+export interface OrganizerProps {
+  id: string;
+  name: string;
+  profilePicture: string | null;
+}
+
+export interface TicketProps {
+  id: string;
+  name: string;
+  price: number;
+}
+
+export interface VoucherProps {
+  id: string;
+  code: string;
+  value: number;
+}
+
+export interface EventDetailProps {
   id: string;
   title: string;
   description: string;
   imageUrl: string;
   category: string;
   location: string;
-  startDate: string;
-  endDate: string;
+  startDate: string; // ISO string
+  endDate: string; // ISO string
   price: number;
   totalSeats: number;
   availableSeats: number | null;
   organizerId: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string; // ISO string
+  updatedAt: string; // ISO string
   deletedAt: string | null;
+  organizer: OrganizerProps;
+  tickets: TicketProps[];
+  vouchers: VoucherProps[];
 }

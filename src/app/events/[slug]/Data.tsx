@@ -2,62 +2,61 @@ import { PageTitle } from "@/components/ui/page-title";
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Separator } from "@/components/ui/separator";
-import { eventData } from "@/lib/const-data";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
+import { EventDetailProps } from "@/props/event.props";
 
-export const Data = () => {
+export const Data = ({ eventDetail }: { eventDetail: EventDetailProps }) => {
   return (
-    <section className="pl-5 md:pl-20">
-      <EventThumbnail />
-      <EventData />
+    <section className="px-5 pl-5 md:px-0 md:pl-20">
+      <EventThumbnail eventDetail={eventDetail} />
+      <EventData eventDetail={eventDetail} />
     </section>
   );
 };
 
-const EventThumbnail = () => (
+const EventThumbnail = ({ eventDetail }: { eventDetail: EventDetailProps }) => (
   <img
-    src={eventData.imageUrl}
-    className="h-[600px] w-full rounded-lg object-cover"
+    src={eventDetail.imageUrl}
+    className="w-full rounded-lg object-cover md:h-[600px]"
   />
 );
 
-const EventInfo = () => {
+const EventInfo = ({ eventDetail }: { eventDetail: EventDetailProps }) => {
   const eventInfoData = [
-    { title: "Date & Time", data: formatDate(eventData.startDate) },
-    { title: "Location", data: eventData.location },
-    { title: "Price", data: formatCurrency(eventData.price) },
+    { title: "Date & Time", data: formatDate(eventDetail.startDate, "date") },
+    { title: "Location", data: eventDetail.location },
     {
       title: "Available tickets",
-      data: `${eventData.availableSeats} remaining`,
+      data: `${eventDetail.availableSeats}/${eventDetail.totalSeats}`,
     },
   ];
   return (
-    <div className="flex justify-between">
+    <div className="justify-between md:flex">
       {eventInfoData.map((item, i) => (
         <div key={i} className="my-5 min-w-[100px]">
           <SectionText>{item.title}</SectionText>
-          <p className="mt-2">{item.data}</p>
+          <p className="mt-2 text-sm md:text-base">{item.data}</p>
         </div>
       ))}
-      <div className="active:bg-[var(--container-hover)]s my-3 min-w-[220px] cursor-pointer rounded-sm px-5 py-2 transition-all duration-200 hover:bg-[var(--container-hover)]">
+      <div className="active:bg-[var(--container-hover)]s my-3 cursor-pointer rounded-sm py-2 transition-all duration-200 hover:bg-[var(--container-hover)] active:bg-[var(--container-hover)] md:min-w-[220px] md:px-2">
         <SectionText>Organize by</SectionText>
-        <p className="mt-2">Hooman made</p>
+        <p className="mt-2">{eventDetail.organizer.name}</p>
       </div>
     </div>
   );
 };
 
-const EventData = () => {
+const EventData = ({ eventDetail }: { eventDetail: EventDetailProps }) => {
   return (
     <div>
       <PageTitle className="mt-10 mb-5 line-clamp-2">
-        {eventData.title}
+        {eventDetail.title}
       </PageTitle>
       <Separator />
-      <EventInfo />
+      <EventInfo eventDetail={eventDetail} />
       <Separator />
       <SectionTitle className="mt-10 mb-5">Event detail</SectionTitle>
-      <p>{eventData.description}</p>
+      <p>{eventDetail.description}</p>
     </div>
   );
 };

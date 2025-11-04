@@ -20,11 +20,13 @@ export const Navbar = () => {
           Veeniu
         </Link>
         {!!session.data?.user ? (
-          <Button onClick={() => router.push("/account")}>
+          <Button onClick={() => router.push("/account")} size={"sm"}>
             {session.data?.user.name}
           </Button>
         ) : (
-          <Button onClick={() => router.push("/auth/signin")}>Sign in</Button>
+          <Button onClick={() => router.push("/auth/signin")} size={"sm"}>
+            Sign in
+          </Button>
         )}
       </div>
     </nav>

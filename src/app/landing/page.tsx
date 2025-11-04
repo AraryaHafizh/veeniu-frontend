@@ -1,21 +1,12 @@
-"use client";
+import { auth } from "@/auth";
+import { Landing } from "./Landing";
+import { redirect } from "next/navigation";
 
-import { LoadingScreen } from "@/components/ui/loading-animation";
-import { Highlight } from "./Highlight";
-import { Latest } from "./Latest";
-import { useLanding } from "./useLanding";
-import { EventProps } from "@/props/event.props";
+const Page = async () => {
+  const session = await auth();
+  if (session?.user.role === "ORGANIZER") return redirect("/dashboard");
 
-export default function Landing() {
-  const { data, isPending } = useLanding();
-  const eventData: EventProps[] = data?.data ?? [];
+  return <Landing />;
+};
 
-  if (isPending) return <LoadingScreen />;
-
-  return (
-    <main>
-      <Highlight eventData={eventData} />
-      <Latest eventData={eventData} />
-    </main>
-  );
-}
+export default Page;

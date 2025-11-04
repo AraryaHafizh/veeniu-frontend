@@ -12,8 +12,8 @@ export const SectionTitle = ({
   variant = "default",
 }: SectionTitleProps) => {
   const variantClass = {
-    default: "text-3xl font-semibold",
-    small: "text-xl font-semibold",
+    default: "md:text-3xl font-semibold text-2xl",
+    small: "md:text-xl font-semibold text-lg",
   }[variant];
 
   return <p className={clsx(variantClass, className)}>{children}</p>;

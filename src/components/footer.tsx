@@ -13,9 +13,9 @@ export const Footer = () => {
   if (hiddenRoutes.some((route) => pathname.startsWith(route))) return null;
 
   return (
-    <footer className="bg-foreground/10 mt-15 flex w-full justify-center p-5">
-      <section className="mx-20 mt-10 w-[1920px]">
-        <section className="flex gap-10">
+    <footer className="bg-foreground/10 mt-15 flex w-full justify-center">
+      <section className="mx-5 mt-15 mb-5 w-[1920px] md:mx-20">
+        <section className="gap-10 space-y-5 md:flex">
           <div>
             <Link href="/">
               <SectionTitle>Veeniu</SectionTitle>
@@ -25,7 +25,7 @@ export const Footer = () => {
               click away
             </SectionText>
           </div>
-          <div className="flex w-full justify-around">
+          <div className="flex w-full gap-20 md:justify-end">
             <div>
               <SectionTitle variant="small" className="mb-2">
                 Company
@@ -44,12 +44,12 @@ export const Footer = () => {
             </div>
           </div>
         </section>
-        <Separator className="my-10" />
-        <section className="flex justify-between">
-          <section className="font-light opacity-70">
+        <Separator className="my-5 md:my-10" />
+        <section className="justify-between space-y-5 md:flex md:space-y-0">
+          <section className="text-center text-sm font-light opacity-70 md:text-base">
             © 2025 Veeniu. All Rights Reserved.
           </section>
-          <section className="flex gap-5">
+          <section className="flex justify-around gap-5">
             <FooterLink title="X" />
             <FooterLink title="Instagram" external={true} />
             <FooterLink title="Youtube" external={true} />
@@ -74,7 +74,7 @@ const FooterLink = ({
     <Link
       href={route}
       target={external ? "_blank" : ""}
-      className="font-light opacity-70 transition-all duration-200 hover:opacity-100 active:opacity-100"
+      className="text-sm font-light opacity-70 transition-all duration-200 hover:opacity-100 active:opacity-100 md:text-base"
     >
       {title}
     </Link>

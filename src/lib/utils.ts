@@ -55,3 +55,12 @@ export function getGreeting(username: string, hour?: number): string {
   if (currentHour >= 12 && currentHour < 18) return `Good evening, ${username}`;
   return `Good night, ${username}`;
 }
+
+export function splitName(name: string): [string, string] {
+  const parts = name.trim().split(/\s+/);
+
+  const firstName = parts[0] || "";
+  const lastName = parts[1] || "";
+
+  return [firstName, lastName];
+}

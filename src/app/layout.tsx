@@ -26,7 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${sora.className} antialiased`}>
+      <body
+        className={`${sora.className} flex min-h-screen flex-col antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -37,13 +39,13 @@ export default function RootLayout({
             <NuqsAdapter>
               <Suspense>
                 <Navbar />
-                {children}
+                <main className="flex-1">{children}</main>
                 <Footer />
               </Suspense>
             </NuqsAdapter>
           </QueryProvider>
         </SessionProvider>
-        <Toaster />
+        <Toaster position="top-center" />
       </body>
     </html>
   );
