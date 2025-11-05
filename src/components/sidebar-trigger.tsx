@@ -4,6 +4,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { useSidebarStore } from "@/store/sidebar-store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 export function SidebarTrigger() {
   const { toggleSidebar, open } = useSidebar();
@@ -19,22 +20,22 @@ export function SidebarTrigger() {
         <Link
           href="/dashboard"
           className="text-primary cursor-pointer text-4xl font-bold"
-          onClick={() => setIndex(0)}
+          onClick={() => {
+            setIndex(0);
+            if (window.innerWidth < 768) toggleSidebar();
+          }}
         >
           Veeniu
         </Link>
       )}
 
-      <button
-        onClick={toggleSidebar}
-        className="hover:bg-primary hover:border-primary cursor-pointer rounded-md border p-1.5 transition-all duration-300 hover:text-[var(--footer-text)]"
-      >
+      <Button variant={"outline"} size={"icon-sm"} onClick={toggleSidebar}>
         {open ? (
           <ChevronLeft className="h-4 w-4" />
         ) : (
           <ChevronRight className="h-4 w-4" />
         )}
-      </button>
+      </Button>
     </div>
   );
 }

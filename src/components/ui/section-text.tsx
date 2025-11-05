@@ -12,8 +12,8 @@ export const SectionText = ({
   variant = "transparant",
 }: SectionTextProps) => {
   const variantClass = {
-    default: "text-sm font-light",
-    transparant: "text-sm font-light opacity-70",
+    default: "font-light",
+    transparant: "md:text-sm font-light opacity-70 text-xs",
   }[variant];
 
   return <p className={clsx(variantClass, className)}>{children}</p>;

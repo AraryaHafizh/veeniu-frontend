@@ -6,82 +6,117 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { PageTitle } from "@/components/ui/page-title";
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
 import { TextLink } from "@/components/ui/textlink";
-import { ticketsData } from "@/lib/const-data";
+import { Wrapper } from "@/components/ui/wrapper";
 import { formatDate } from "@/lib/utils";
-import { EventProps } from "@/props/event.props";
+import { EventCardProps } from "@/props/eventCard.props";
 import Autoplay from "embla-carousel-autoplay";
 
-export const Highlight = ({ eventData }: { eventData: EventProps[] }) => {
+export const Highlight = ({
+  eventCard,
+  transactions,
+}: {
+  eventCard: EventCardProps[];
+  transactions: any[];
+}) => {
   return (
     <section className="pt-[70px]">
-      <LatestCarousel eventData={eventData} />
-      <UserTickets />
+      <LatestCarousel eventCard={eventCard} />
+      <UserTickets transactions={transactions} />
     </section>
   );
 };
 
-const LatestCarousel = ({ eventData }: { eventData: EventProps[] }) => (
-  <Carousel
-    opts={{
-      loop: true,
-      duration: 60,
-    }}
-    plugins={[
-      Autoplay({
-        delay: 7000,
-        stopOnInteraction: false,
-      }),
-    ]}
-  >
-    <CarouselContent>
-      {eventData.map((event, index) => (
-        <CarouselItem key={index}>
-          <div className="relative md:h-[700px]">
-            <img src={event.imageUrl} className="h-full w-full object-cover" />
+const LatestCarousel = ({ eventCard }: { eventCard: EventCardProps[] }) => {
+  const hasData = eventCard && eventCard.length > 0;
 
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90" />
+  if (!hasData)
+    return (
+      <Wrapper>
+        <div className="text-muted-foreground flex h-[400px] w-full items-center justify-center rounded-2xl border-2 border-dashed">
+          No events available
+        </div>
+      </Wrapper>
+    );
 
-            <div className="absolute inset-0 flex flex-col justify-end px-20 py-10 text-[var(--footer-text)] select-none">
-              <p className="text-5xl font-bold">{event.title}</p>
+  return (
+    <Carousel
+      opts={{
+        loop: true,
+        duration: 60,
+      }}
+      plugins={[
+        Autoplay({
+          delay: 7000,
+          stopOnInteraction: false,
+        }),
+      ]}
+    >
+      <CarouselContent>
+        {eventCard.map((event, index) => (
+          <CarouselItem key={index}>
+            <div className="relative md:h-[700px]">
+              <img
+                src={event.imageUrl}
+                className="h-full w-full object-cover"
+              />
 
-              <div className="mt-10 hidden justify-between md:flex">
-                <div className="space-y-1 md:space-y-2">
-                  <SectionText variant="default">{event.location}</SectionText>
-                  <SectionText variant="default">
-                    {formatDate(event.startDate)}
-                  </SectionText>
-                  {/* <SectionText variant="default">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90" />
+
+              <div className="absolute inset-0 flex flex-col justify-end p-5 text-[var(--footer-text)] select-none md:px-20 md:py-10">
+                <PageTitle>{event.title}</PageTitle>
+
+                <div className="mt-10 hidden justify-between md:flex">
+                  <div className="space-y-1 md:space-y-2">
+                    <SectionText variant="default">
+                      {event.location}
+                    </SectionText>
+                    <SectionText variant="default">
+                      {formatDate(event.startDate)}
+                    </SectionText>
+                    {/* <SectionText variant="default">
                     {formatCurrency(event.price)}
                   </SectionText> */}
-                </div>
+                  </div>
 
-                <div className="w-[40%]">
-                  <SectionText variant="default" className="line-clamp-4">
-                    {event.description}
-                  </SectionText>
+                  <div className="w-[40%]">
+                    <SectionText variant="default" className="line-clamp-4">
+                      {event.description}
+                    </SectionText>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </CarouselItem>
-      ))}
-    </CarouselContent>
-  </Carousel>
-);
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+    </Carousel>
+  );
+};
 
-const UserTickets = () => (
+const UserTickets = ({ transactions }: { transactions: any[] }) => (
   <section>
     <div className="mt-5 flex items-end justify-between px-5 md:px-20">
       <SectionTitle>My tickets</SectionTitle>
-      <TextLink link={"/"} />
+      <TextLink link={"/account"} />
     </div>
     <div className="scroll-hidden mt-5 flex h-fit w-full gap-3 overflow-x-auto px-5 md:px-20">
-      {ticketsData.map((data, i) => (
-        <TicketCard key={i} ticketData={data} eventData={data.event} />
-      ))}
+      {transactions && transactions.length > 0 ? (
+        transactions.map((transaction, i) => (
+          <TicketCard
+            key={i}
+            ticketData={transaction}
+            eventCard={transaction.event}
+          />
+        ))
+      ) : (
+        <div className="text-muted-foreground flex h-[110px] w-full items-center justify-center rounded-2xl border-2 border-dashed">
+          No tickets
+        </div>
+      )}
     </div>
   </section>
 );

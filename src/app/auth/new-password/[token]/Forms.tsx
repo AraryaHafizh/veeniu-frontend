@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { LoadingAnimation } from "@/components/ui/loading-animation";
+import { useNewPassword } from "@/hooks/auth/useNewPassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useNewPassword } from "./useNewPassword";
 
 export const NewPasswordSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long."),

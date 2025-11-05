@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useSignupOrg } from "./useSignupOrg";
+import { useSignupOrg } from "../../../../hooks/auth/useSignupOrg";
 
 export const signupOrgSchema = z.object({
   name: z.string().min(4, "Username must be at least 4 characters long."),

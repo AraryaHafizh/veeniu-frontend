@@ -1,29 +1,27 @@
 "use client";
 
 import { DataPagination } from "@/components/data-pagination";
+import { SidebarTriggerMobile } from "@/components/sidebar-trigger-mobile";
+import { Table } from "@/components/table";
 import { Input } from "@/components/ui/input";
 import { LoadingScreen } from "@/components/ui/loading-animation";
 import { SectionTitle } from "@/components/ui/section-title";
+import { parseAsInteger, useQueryState } from "nuqs";
+import { Suspense } from "react";
+import { useGetOrgEvents } from "../../../hooks/event/useGetOrgEvents";
 import { Sheet } from "./Sheet";
-import { useEvents } from "./useEvents";
-import { Table } from "@/components/table";
-
-const tableTitle = [
-  "No",
-  "Title",
-  "Category",
-  "Location",
-  "Total seats",
-  "Start date",
-];
 
 export default function page() {
-  const { data: eventData, isPending } = useEvents();
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+  const { data: event, isPending } = useGetOrgEvents({
+    page,
+    limit: 20,
+  });
   const dashboardTableData = {
     title: "",
     columns: [
       { key: "no", title: "No" },
-      { key: "title", title: "Event Title" },
+      { key: "title", title: "Event title" },
       { key: "category", title: "Category" },
       { key: "location", title: "Location" },
       { key: "startDate", title: "Date" },
@@ -31,22 +29,30 @@ export default function page() {
       { key: "availableSeats", title: "Available seats" },
       { key: "action", title: "Action" },
     ],
-    data: eventData?.data ?? [],
+    data: event?.data ?? [],
   };
 
-  if (isPending) return <LoadingScreen />;
+  const onChangePage = (page: number) => {
+    setPage(page);
+  };
+
+  if (isPending) return <LoadingScreen isDashboard={true} />;
 
   return (
     <section>
-      <SectionTitle className="mt-10">My events</SectionTitle>
-      <div className="mt-10 mb-5 flex justify-between">
+      <SidebarTriggerMobile>
+        <SectionTitle className="mt-10">My events</SectionTitle>
+      </SidebarTriggerMobile>
+      <div className="mt-10 mb-5 flex justify-between gap-2">
         <Input type="text" placeholder="Search" className="w-[280px]" />
         <Sheet />
       </div>
-      <section className="my-5 grid w-full grid-cols-1">
-        <Table {...dashboardTableData} />
-      </section>
-      <DataPagination />
+      <Suspense>
+        <section className="my-5 grid w-full grid-cols-1">
+          <Table {...dashboardTableData} />
+        </section>
+        <DataPagination onChangePage={onChangePage} meta={event.meta} />
+      </Suspense>
     </section>
   );
 }

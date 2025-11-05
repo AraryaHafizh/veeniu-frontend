@@ -4,6 +4,7 @@ import clsx from "clsx"
 
 interface TextFieldProps {
   id: string
+  type?:string
   label: string
   placeholder?: string
   className?: string
@@ -12,6 +13,7 @@ interface TextFieldProps {
 
 export const TextField = ({
   id,
+  type="",
   label,
   placeholder = "",
   className,
@@ -22,6 +24,7 @@ export const TextField = ({
       <Label htmlFor={id}>{label}</Label>
       <Input
         id={id}
+        type={type}
         placeholder={placeholder}
         autoComplete={autoComplete}
       />

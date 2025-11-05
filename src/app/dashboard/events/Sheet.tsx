@@ -26,7 +26,7 @@ import { Image } from "lucide-react";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useCreateEvent } from "./useCreateEvent";
+import { useCreateEvent } from "../../../hooks/event/useCreateEvent";
 
 export const Sheet = () => {
   const { mutateAsync, isPending, open, setOpen } = useCreateEvent();
@@ -46,7 +46,7 @@ export const Sheet = () => {
 export const createEventSchema = z.object({
   thumbnail: z.instanceof(File),
   title: z.string().min(3, "Event name must be at least 3 characters long."),
-  category: z.string(),
+  category: z.string().nonempty("Category is required."),
   description: z
     .string()
     .min(10, "Description must be at least 10 characters long."),
@@ -84,7 +84,7 @@ export const CreateEventForm = ({
       location: "",
       startDate: new Date(),
       endDate: new Date(),
-      totalSeats: 1,
+      totalSeats: 0,
     },
   });
 
@@ -135,7 +135,11 @@ export const CreateEventForm = ({
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel>Event name</FieldLabel>
-                  <Input {...field} placeholder="Enter event name" />
+                  <Input
+                    {...field}
+                    placeholder="Enter event name"
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -143,7 +147,7 @@ export const CreateEventForm = ({
               )}
             />
 
-            <section className="flex gap-5">
+            <section className="gap-5 space-y-5 md:flex md:space-y-0">
               <Controller
                 name="category"
                 control={form.control}
@@ -151,7 +155,7 @@ export const CreateEventForm = ({
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel>Event category</FieldLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger>
+                      <SelectTrigger aria-invalid={fieldState.invalid}>
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -177,7 +181,7 @@ export const CreateEventForm = ({
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel>Event location</FieldLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger>
+                      <SelectTrigger aria-invalid={fieldState.invalid}>
                         <SelectValue placeholder="Select location" />
                       </SelectTrigger>
                       <SelectContent>
@@ -208,6 +212,7 @@ export const CreateEventForm = ({
                     {...field}
                     placeholder="Describe your event..."
                     className="min-h-[100px]"
+                    aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -256,6 +261,7 @@ export const CreateEventForm = ({
                     {...field}
                     placeholder="Number of available seats"
                     onChange={(e) => field.onChange(Number(e.target.value))}
+                    aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

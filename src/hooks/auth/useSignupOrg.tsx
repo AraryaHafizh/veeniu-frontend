@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
-import { signupOrgSchema } from "./Forms";
+import { signupOrgSchema } from "../../app/auth/signup/organizer/Forms";
 
 export const useSignupOrg = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -19,7 +19,7 @@ export const useSignupOrg = () => {
       setOpenDialog(true);
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      toast(error.response?.data.message ?? "Something went wrong!");
+      toast.error(error.response?.data.message ?? "Something went wrong!");
     },
   });
 

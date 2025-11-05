@@ -1,26 +1,9 @@
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { SidebarTriggerMobile } from "@/components/sidebar-trigger-mobile";
 import { SectionTitle } from "@/components/ui/section-title";
 import { formatCurrency, getGreeting } from "@/lib/utils";
-import { redirect } from "next/navigation";
 import { LandingTable } from "./LandingTable";
-
-const Dashboard = async () => {
-  const session = await auth();
-
-  if (session?.user.role !== "ORGANIZER") return redirect("/auth/signin");
-
-  return (
-    <main>
-      <SectionTitle className="mt-10">{getGreeting("Hooman")}</SectionTitle>
-      <section className="mt-20 flex gap-5">
-        <StatCard title="Total revenue" value={formatCurrency(1000000)} />
-        <StatCard title="Ticket sold" value={15.0} />
-        <StatCard title="Total attendees" value={15.0} />
-      </section>
-      <LandingTable />
-    </main>
-  );
-};
 
 interface StatCardProps {
   title: string;
@@ -30,7 +13,7 @@ interface StatCardProps {
 
 const StatCard = ({ title, value, isCurrency = false }: StatCardProps) => {
   return (
-    <div className="bg-card rounded-lg p-5">
+    <div className="md:bg-card p-5 md:rounded-lg">
       <SectionTitle variant="small">{title}</SectionTitle>
       <p className="text-3xl font-bold">
         {isCurrency && typeof value === "number"
@@ -41,4 +24,24 @@ const StatCard = ({ title, value, isCurrency = false }: StatCardProps) => {
   );
 };
 
-export default Dashboard;
+const Page = async () => {
+  const session = await auth();
+
+  if (session?.user.role !== "ORGANIZER") return redirect("/");
+
+  return (
+    <main>
+      <SidebarTriggerMobile>
+        <SectionTitle className="mt-10">{getGreeting("Hooman")}</SectionTitle>
+      </SidebarTriggerMobile>
+      <section className="bg-card mt-10 gap-5 rounded-lg md:mt-20 md:flex md:rounded-none md:bg-transparent">
+        <StatCard title="Total revenue" value={formatCurrency(1000000)} />
+        <StatCard title="Ticket sold" value={15.0} />
+        <StatCard title="Total attendees" value={15.0} />
+      </section>
+      <LandingTable />
+    </main>
+  );
+};
+
+export default Page;

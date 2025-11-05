@@ -1,13 +1,11 @@
 import { veeniuApi } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-export const useTicket = () => {
+export const useGetEvent = ({ slug }: { slug: string }) => {
   return useQuery({
-    queryKey: ["ticket"],
+    queryKey: ["events", slug],
     queryFn: async () => {
-      const res = await veeniuApi.get("/tickets");
-      console.log(res.data.data);
-      
+      const res = await veeniuApi.get(`/events/${slug}`);
       return res.data;
     },
   });

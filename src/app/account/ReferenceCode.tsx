@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button";
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
 import { useState } from "react";
+import { toast } from "sonner";
 
-export const ReferenceCode = () => {
-  const code = "H0Z34N";
+export const ReferenceCode = ({ data }: { data: any }) => {
+  const code = data.referralCode;
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(code);
+    toast("Copied to clipboard!");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

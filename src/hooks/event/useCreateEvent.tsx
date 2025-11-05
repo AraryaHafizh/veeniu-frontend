@@ -49,11 +49,10 @@ export const useCreateEvent = () => {
     onSuccess: () => {
       setOpen(false);
       toast.success("Create event success");
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["org-events"] });
     },
     onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error.response?.data.message || "Something went wrong!");
-      console.log(error.response?.data.message);
     },
   });
   return {

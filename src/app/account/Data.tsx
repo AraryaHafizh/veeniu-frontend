@@ -2,59 +2,64 @@ import { Button } from "@/components/ui/button";
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Separator } from "@/components/ui/separator";
-import { TextField } from "./Textfield";
+import { TextField } from "../../components/Textfield";
 import { SignoutConfirmation } from "@/components/popup-confirmation";
+import { splitName } from "@/lib/utils";
 
-export const Data = () => (
+export const Data = ({ data }: { data: any }) => (
   <section className="bg-card mt-10 rounded-lg p-15">
     <div>
-      <SectionTitle>Lorem Ipsum</SectionTitle>
-      <SectionText>name@mail.com</SectionText>
+      <SectionTitle>{data.name}</SectionTitle>
+      <SectionText>{data.email}</SectionText>
     </div>
     <Separator className="my-5" />
-    <UserData />
+    <UserData data={data} />
   </section>
 );
 
-const UserData = () => (
-  <div>
-    <div className="flex w-full gap-5">
-      <TextField
-        id="first-name"
-        label="First name"
-        placeholder="lorem"
-        className="flex-1"
-      />
-      <TextField
-        id="last-name"
-        label="Last name"
-        placeholder="ipsum"
-        className="flex-1"
-      />
+const UserData = ({ data }: { data: any }) => {
+  const names = splitName(data.name);
+  
+  return (
+    <div>
+      <div className="flex w-full gap-5">
+        <TextField
+          id="first-name"
+          label="First name"
+          placeholder={names[0]}
+          className="flex-1"
+        />
+        <TextField
+          id="last-name"
+          label="Last name"
+          placeholder={names[1]}
+          className="flex-1"
+        />
+      </div>
+      <Separator className="my-5" />
+      <SectionTitle variant="small" className="mb-5">
+        Change Password
+      </SectionTitle>
+      <div className="flex w-full items-end gap-5">
+        <TextField
+          id="new-password"
+          type="password"
+          label="New password"
+          className="flex-1"
+        />
+        <TextField
+          id="confirm-password"
+          type="password"
+          label="Confirm password"
+          className="flex-1"
+        />
+      </div>
+      <div className="mt-5 flex justify-end gap-5">
+        <SignoutConfirmation>
+          <Button variant={"destructive"}>Sign out</Button>
+        </SignoutConfirmation>
+        <Button>Save changes</Button>
+      </div>
     </div>
-    <Separator className="my-5" />
-    <SectionTitle variant="small" className="mb-5">
-      Change Password
-    </SectionTitle>
-    <div className="flex w-full items-end gap-5">
-      <TextField
-        id="new-password"
-        label="New password"
-        placeholder="lorem"
-        className="flex-1"
-      />
-      <TextField
-        id="confirm-password"
-        label="Confirm password"
-        placeholder="lorem"
-        className="flex-1"
-      />
-    </div>
-    <div className="mt-5 flex justify-end gap-5">
-      <SignoutConfirmation>
-        <Button variant={"destructive"}>Sign out</Button>
-      </SignoutConfirmation>
-      <Button variant={"outline"}>Save changes</Button>
-    </div>
-  </div>
-);
+  );
+};

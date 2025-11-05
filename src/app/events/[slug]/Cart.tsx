@@ -12,24 +12,28 @@ import { Label } from "@/components/ui/label";
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Separator } from "@/components/ui/separator";
-import { ticketsData, vouchersData } from "@/lib/const-data";
 import { formatCurrency } from "@/lib/utils";
+import {
+  EventDetailProps,
+  TicketProps,
+  VoucherProps,
+} from "@/props/event.props";
 import { TicketPercent } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const MAX_TOTAL_TICKETS = 5;
 
-export const Cart = () => {
+export const Cart = ({ eventDetail }: { eventDetail: EventDetailProps }) => {
   return (
-    <section className="bg-card sticky top-[70px] mr-5 rounded-lg p-5 md:mr-20">
+    <section className="bg-card sticky top-[70px] mx-5 mr-5 rounded-lg p-5 md:mx-0 md:mr-20">
       <div>
         <SectionTitle className="mb-5" variant="small">
           Available tickets
         </SectionTitle>
-        <EventTicket />
+        <EventTicket tickets={eventDetail.tickets} />
         <Separator className="my-5" />
-        <EventVoucher />
+        <EventVoucher vouchers={eventDetail.vouchers} />
         <Separator className="my-5" />
         <Subtotal />
       </div>
@@ -37,9 +41,9 @@ export const Cart = () => {
   );
 };
 
-const EventTicket = () => {
+const EventTicket = ({ tickets }: { tickets: TicketProps[] }) => {
   const [quantities, setQuantities] = useState<Record<string, number>>(
-    Object.fromEntries(ticketsData.map((t) => [t.id, 0])),
+    Object.fromEntries(tickets.map((t) => [t.id, 0])),
   );
 
   const totalTickets = Object.values(quantities).reduce((a, b) => a + b, 0);
@@ -58,10 +62,10 @@ const EventTicket = () => {
 
   return (
     <div className="space-y-5">
-      {ticketsData.map((ticket) => (
+      {tickets.map((ticket) => (
         <div key={ticket.id} className="flex items-center justify-between">
           <div>
-            <p>{ticket.name}</p>
+            <p className="text-sm md:text-base">{ticket.name}</p>
             <SectionText>{formatCurrency(ticket.price)}</SectionText>
           </div>
 
@@ -92,21 +96,21 @@ const EventTicket = () => {
   );
 };
 
-const EventVoucher = () => (
+const EventVoucher = ({ vouchers }: { vouchers: VoucherProps[] }) => (
   <Accordion type="single" collapsible>
     <AccordionItem value="item-1">
       <AccordionTrigger>
         <SectionTitle variant="small">Vouchers & Points</SectionTitle>
       </AccordionTrigger>
       <AccordionContent className="space-y-2">
-        {vouchersData.map((voucher, i) => (
+        {vouchers.map((voucher, i) => (
           <div
             key={i}
             className="flex cursor-pointer items-center gap-5 rounded-lg p-5 transition-all duration-200 hover:bg-[var(--container-hover)] active:bg-[var(--container-hover)]"
           >
             <TicketPercent className="h-7 w-7" />
             <div>
-              <p className="text-lg font-bold">{voucher.code}</p>
+              <p className="font-bold md:text-lg">{voucher.code}</p>
               <SectionText>{formatCurrency(voucher.value)}</SectionText>
             </div>
           </div>
