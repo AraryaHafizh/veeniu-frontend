@@ -34,7 +34,7 @@ export function DashboardSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className={`transition-all duration-300 hover:text-white ${index == i && "bg-primary/20 dark:bg-primary/50"}`}
+                    className={`transition-all duration-300 hover:text-white ${index == i && "bg-primary/20 dark:bg-primary/50"} active:text-white`}
                     onClick={() => {
                       setIndex(i);
                       if (window.innerWidth < 768) toggleSidebar();
@@ -55,7 +55,7 @@ export function DashboardSidebar() {
         <SignoutConfirmation>
           <SidebarMenuButton
             asChild
-            className="hover:bg-destructive active:bg-destructive cursor-pointer transition-all duration-300 hover:text-white"
+            className="hover:bg-destructive active:bg-destructive cursor-pointer transition-all duration-300 select-none hover:text-white active:text-white"
           >
             <span>
               <LogOut />

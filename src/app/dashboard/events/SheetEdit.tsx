@@ -20,31 +20,60 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEditEvent } from "@/hooks/event/useEditEvent";
 import { categories, cities } from "@/lib/const-data";
+import { EventCardProps } from "@/props/eventCard.props";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Image } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useCreateEvent } from "../../../hooks/event/useCreateEvent";
 
-export const Sheet = () => {
-  const { mutateAsync, isPending, open, setOpen } = useCreateEvent();
+function capitalizeWord(str: string) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export const SheetEdit = ({
+  data,
+  onClose,
+}: {
+  data: EventCardProps;
+  onClose: () => void;
+}) => {
+  const { mutateAsync, isPending } = useEditEvent();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (data && Object.keys(data).length > 0) {
+      setOpen(true);
+    }
+  }, [data]);
+
+  const handleClose = (state: boolean) => {
+    setOpen(state);
+    if (!state) onClose();
+  };
 
   return (
     <DashboardSheet
-      trigger="Create"
-      title="Create new event"
+      trigger="Edit"
+      title="Edit Event"
       open={open}
-      setOpen={setOpen}
+      setOpen={handleClose}
     >
-      <CreateEventForm mutateAsync={mutateAsync} isPending={isPending} />
+      <EditEventForm
+        mutateAsync={mutateAsync}
+        isPending={isPending}
+        event={data}
+        onSuccess={() => handleClose(false)}
+      />
     </DashboardSheet>
   );
 };
 
 export const createEventSchema = z.object({
-  thumbnail: z.instanceof(File),
+  thumbnail: z.instanceof(File).optional(),
   title: z.string().min(3, "Event name must be at least 3 characters long."),
   category: z.string().nonempty("Category is required."),
   description: z
@@ -56,41 +85,79 @@ export const createEventSchema = z.object({
   totalSeats: z.number().min(1, "Must have at least 1 seat available."),
 });
 
-export const CreateEventForm = ({
+export const EditEventForm = ({
   mutateAsync,
   isPending,
+  event,
+  onSuccess,
 }: {
   mutateAsync: any;
   isPending: boolean;
+  event: EventCardProps;
+  onSuccess: () => void;
 }) => {
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string>(event?.imageUrl ?? "");
+  const [fileSelected, setFileSelected] = useState<File | null>(null);
+  const [mode, setMode] = useState<"event" | "file">(
+    event?.imageUrl ? "event" : "file",
+  );
   const fileRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (event?.imageUrl) {
+      setPreview(event.imageUrl);
+      setMode("event");
+    } else {
+      setPreview("");
+      setMode("file");
+    }
+  }, [event]);
+
+  const handleDivClick = () => {
+    if (mode === "file" && fileSelected) {
+      // reset ke event
+      setPreview(event?.imageUrl ?? "");
+      setFileSelected(null);
+      form.setValue("thumbnail", undefined);
+      setMode("event");
+    } else {
+      // buka file picker
+      fileRef.current?.click();
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result as string);
-    reader.readAsDataURL(file);
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(objectUrl);
+    setFileSelected(file);
     form.setValue("thumbnail", file);
+    setMode("file");
   };
 
   const form = useForm<z.infer<typeof createEventSchema>>({
     resolver: zodResolver(createEventSchema),
     defaultValues: {
       thumbnail: undefined,
-      title: "",
-      category: "",
-      description: "",
-      location: "",
-      startDate: new Date(),
-      endDate: new Date(),
-      totalSeats: 0,
+      title: event?.title ?? "",
+      category: capitalizeWord(event?.category) ?? "",
+      description: event?.description ?? "",
+      location: capitalizeWord(event?.location) ?? "",
+      startDate: new Date(event?.startDate ?? new Date()),
+      endDate: new Date(event?.endDate ?? new Date()),
+      totalSeats: event?.totalSeats ?? 0,
     },
   });
 
-  function onSubmit(data: z.infer<typeof createEventSchema>) {
-    mutateAsync(data);
+  async function onSubmit(data: z.infer<typeof createEventSchema>) {
+    const finalData = {
+      id: event?.id,
+      ...data,
+    };
+    await mutateAsync(finalData);
+    onSuccess();
   }
 
   return (
@@ -105,13 +172,13 @@ export const CreateEventForm = ({
             <Label>Event thumbnail</Label>
 
             <div
-              onClick={() => fileRef.current?.click()}
+              onClick={handleDivClick}
               className="bg-card text-muted-foreground hover:border-primary hover:text-primary relative flex h-[220px] w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed transition-all duration-200"
             >
               {preview ? (
                 <img
                   src={preview}
-                  alt="Uploaded preview"
+                  alt="Preview"
                   className="absolute inset-0 h-full w-full rounded-lg object-cover"
                 />
               ) : (
@@ -122,6 +189,7 @@ export const CreateEventForm = ({
               )}
 
               <input
+                key={fileSelected ? fileSelected.name : "file-input"}
                 ref={fileRef}
                 type="file"
                 accept="image/*"
@@ -275,7 +343,7 @@ export const CreateEventForm = ({
 
           <div className="bg-background sticky bottom-0 p-5 shadow-sm">
             <Button className="w-full" type="submit">
-              {isPending ? <LoadingAnimation /> : "Create Event"}
+              {isPending ? <LoadingAnimation /> : "Edit Event"}
             </Button>
           </div>
         </FieldGroup>

@@ -23,5 +23,8 @@ export const useGetOrgTickets = (queries?: PaginationQueries) => {
 
       return res.data;
     },
+    staleTime: 1000 * 60 * 10,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 };

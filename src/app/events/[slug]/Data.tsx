@@ -1,3 +1,4 @@
+import Markdown from "@/components/Markdown";
 import { PageTitle } from "@/components/ui/page-title";
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
@@ -56,7 +57,7 @@ const EventData = ({ eventDetail }: { eventDetail: EventDetailProps }) => {
       <EventInfo eventDetail={eventDetail} />
       <Separator />
       <SectionTitle className="mt-10 mb-5">Event detail</SectionTitle>
-      <p>{eventDetail.description}</p>
+      <Markdown content={eventDetail.description} />
     </div>
   );
 };

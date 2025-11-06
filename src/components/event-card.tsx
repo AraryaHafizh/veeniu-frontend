@@ -10,7 +10,7 @@ export const EventCard = ({ eventCard }: { eventCard: EventCardProps }) => {
   return (
     <div
       className="cursor-pointer rounded-lg border p-3 transition-all duration-200 hover:bg-[var(--container-hover)] active:bg-[var(--container-hover)]"
-      onClick={() => router.push(`/events/${eventCard.id}`)}
+      onClick={() => router.push(`/events/${eventCard.slug}`)}
     >
       <img
         src={eventCard.imageUrl}
