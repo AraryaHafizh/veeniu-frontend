@@ -7,11 +7,14 @@ import { Input } from "@/components/ui/input";
 import { LoadingScreen } from "@/components/ui/loading-animation";
 import { SectionTitle } from "@/components/ui/section-title";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { useGetOrgEvents } from "../../../hooks/event/useGetOrgEvents";
 import { Sheet } from "./Sheet";
+import { SheetEdit } from "./SheetEdit";
+import { EventCardProps } from "@/props/eventCard.props";
 
 export default function page() {
+  const [data, setData] = useState<EventCardProps | null>();
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const { data: event, isPending } = useGetOrgEvents({
     page,
@@ -20,16 +23,33 @@ export default function page() {
   const dashboardTableData = {
     title: "",
     columns: [
-      { key: "no", title: "No" },
+    { key: "no", title: "No" },
       { key: "title", title: "Event title" },
       { key: "category", title: "Category" },
       { key: "location", title: "Location" },
       { key: "startDate", title: "Date" },
       { key: "totalSeats", title: "Total seats" },
       { key: "availableSeats", title: "Available seats" },
-      { key: "action", title: "Action" },
     ],
     data: event?.data ?? [],
+    actions: {
+      label: "Event action",
+      items: [
+        {
+          label: "Edit",
+          onClick: (row: EventCardProps) => {
+            setData(row);
+          },
+        },
+        {
+          label: "Delete",
+          onClick: (row: Record<string, any>) => {
+            console.log(row);
+          },
+          destructive: true,
+        },
+      ],
+    },
   };
 
   const onChangePage = (page: number) => {
@@ -53,6 +73,9 @@ export default function page() {
         </section>
         <DataPagination onChangePage={onChangePage} meta={event.meta} />
       </Suspense>
+      <div className="hidden">
+        <SheetEdit data={data!} onClose={() => setData(null)} />
+      </div>
     </section>
   );
 }

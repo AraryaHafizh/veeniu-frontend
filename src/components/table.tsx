@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { SectionTitle } from "@/components/ui/section-title";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import clsx from "clsx";
@@ -19,11 +27,20 @@ export interface Column {
   title: string;
 }
 
+export interface DropdownItem {
+  label: string;
+  onClick?: (row: any) => void;
+  destructive?: boolean;
+}
+
 export interface TableProps {
   title: string;
   columns: Column[];
   data: Record<string, any>[];
-  onActionClick?: (row: Record<string, any>) => void;
+  actions?: {
+    label?: string;
+    items: DropdownItem[];
+  };
   actionLabel?: string;
   className?: string;
 }
@@ -32,11 +49,12 @@ export const Table = ({
   title,
   columns,
   data,
-  onActionClick,
+  actions,
   actionLabel = "Action",
   className,
 }: TableProps) => {
   const priceKey = ["amount", "price", "value"];
+
   return (
     <div className={clsx("bg-card rounded-lg p-5", className)}>
       {title && <SectionTitle variant="small">{title}</SectionTitle>}
@@ -67,10 +85,7 @@ export const Table = ({
 
               <tbody>
                 {data.map((row, i) => (
-                  <tr
-                    key={i}
-                    className="border-t transition-colors hover:bg-[var(--container-hover)]"
-                  >
+                  <tr key={i} className="border-t transition-colors">
                     {columns.map((col) => {
                       const key = col.key;
 
@@ -112,22 +127,6 @@ export const Table = ({
                         value = TRANSACTION_STATUS_LABELS[strValue] ?? strValue;
                       }
 
-                      if (key === "action") {
-                        return (
-                          <td
-                            key={key}
-                            className="px-1 text-right whitespace-nowrap"
-                          >
-                            <Button
-                              onClick={() => onActionClick?.(row)}
-                              variant="outline"
-                            >
-                              {actionLabel}
-                            </Button>
-                          </td>
-                        );
-                      }
-
                       return (
                         <td
                           key={key}
@@ -137,6 +136,20 @@ export const Table = ({
                         </td>
                       );
                     })}
+
+                    {actions && (
+                      <td className="px-1 text-right whitespace-nowrap">
+                        <TableDropdown
+                          label={actions.label}
+                          items={actions.items.map((item) => ({
+                            ...item,
+                            onClick: () => item.onClick?.(row),
+                          }))}
+                        >
+                          <Button variant="outline">{actionLabel}</Button>
+                        </TableDropdown>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -145,5 +158,36 @@ export const Table = ({
         </div>
       )}
     </div>
+  );
+};
+
+export const TableDropdown = ({
+  children,
+  label,
+  items,
+}: {
+  children: React.ReactNode;
+  label?: string;
+  items: DropdownItem[];
+}) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {label && <DropdownMenuLabel>{label}</DropdownMenuLabel>}
+        {label && <DropdownMenuSeparator />}
+        {items.map((item, i) => (
+          <DropdownMenuItem
+            key={i}
+            onClick={item.onClick}
+            className={
+              item.destructive ? "text-destructive focus:text-destructive" : ""
+            }
+          >
+            {item.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

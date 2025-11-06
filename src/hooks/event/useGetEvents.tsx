@@ -16,10 +16,13 @@ interface GetBlogsQuery extends PaginationQueries {
 
 export const useGetEvents = (queries?: GetBlogsQuery) => {
   return useQuery({
-    queryKey: ["events", queries],
+    queryKey: ["events"],
     queryFn: async () => {
       const res = await veeniuApi.get("/events", { params: queries });
       return res.data;
     },
+    staleTime: 1000 * 60 * 30,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 };

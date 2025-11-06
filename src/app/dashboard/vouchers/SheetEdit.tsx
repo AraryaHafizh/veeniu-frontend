@@ -1,6 +1,7 @@
 "use client";
 
 import { DashboardSheet } from "@/components/dashboard-sheet";
+import { DatePicker } from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -9,52 +10,91 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { LoadingAnimation } from "@/components/ui/loading-animation";
+import { useEditVoucher } from "@/hooks/voucher/useEditVoucher";
+import { formatCurrency, randomCodeGenerator } from "@/lib/utils";
+import { VoucherProps } from "@/props/event.props";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import * as z from "zod";
 
-export const Sheet = () => (
-  <DashboardSheet trigger="Create" title="Create new ticket">
-    <CreateVoucherForm />
-  </DashboardSheet>
-);
+export const SheetEdit = ({
+  data,
+  onClose,
+}: {
+  data: VoucherProps;
+  onClose: () => void;
+}) => {
+  const { mutateAsync, isPending } = useEditVoucher();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (data && Object.keys(data).length > 0) {
+      setOpen(true);
+    }
+  }, [data]);
+
+  const handleClose = (state: boolean) => {
+    setOpen(state);
+    if (!state) onClose();
+  };
+
+  return (
+    <DashboardSheet
+      trigger="Edit"
+      title="Edit voucher"
+      open={open}
+      setOpen={handleClose}
+    >
+      <EditVoucherForm
+        voucher={data}
+        mutateAsync={mutateAsync}
+        isPending={isPending}
+        onSuccess={() => handleClose(false)}
+      />
+    </DashboardSheet>
+  );
+};
 
 const createVoucherSchema = z.object({
-  name: z
+  code: z
     .string()
     .min(3, "Min voucher code length is 6 characters.")
     .max(6, "Max voucher code length is 6 characters."),
-  price: z.number().min(1000, "Value must be at least Rp1.000."),
-  stock: z.number().min(1, "Stock must be at least 1."),
-  parentEvent: z.string().nonempty("Parent event is required."),
+  value: z.number().min(1000, "Value must be at least Rp1.000."),
+  eventId: z.string().nonempty("Parent event is required."),
+  expiresAt: z.date(),
 });
 
-export const CreateVoucherForm = () => {
+const EditVoucherForm = ({
+  voucher,
+  mutateAsync,
+  isPending,
+  onSuccess,
+}: {
+  voucher: VoucherProps;
+  mutateAsync: any;
+  isPending: boolean;
+  onSuccess: () => void;
+}) => {
   const form = useForm<z.infer<typeof createVoucherSchema>>({
     resolver: zodResolver(createVoucherSchema),
     defaultValues: {
-      name: "",
-      price: 0,
-      stock: 1,
-      parentEvent: "",
+      code: voucher?.code ?? "",
+      value: voucher?.value ?? 0,
+      eventId: voucher?.eventId ?? "",
+      expiresAt: new Date(voucher?.expiresAt ?? new Date()),
     },
   });
 
-  const formatRupiah = (value: number) => {
-    return new Intl.NumberFormat("id-ID").format(value);
-  };
-
-  function onSubmit(data: z.infer<typeof createVoucherSchema>) {
-    toast.success("Voucher created successfully!");
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof createVoucherSchema>) {
+    const finalData = {
+      id: voucher?.id,
+      ...data,
+    };
+    await mutateAsync(finalData);
+    onSuccess();
   }
 
   return (
@@ -67,12 +107,29 @@ export const CreateVoucherForm = () => {
         <FieldGroup className="flex h-full flex-col">
           <div className="scroll-hidden flex-1 space-y-5 overflow-y-auto px-5 pb-24">
             <Controller
-              name="name"
+              name="code"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Ticket name</FieldLabel>
-                  <Input {...field} placeholder="Enter ticket name" />
+                  <FieldLabel>Voucher Code</FieldLabel>
+                  <div className="flex gap-2">
+                    <Input
+                      {...field}
+                      placeholder="Enter voucher code"
+                      className="flex-1"
+                      aria-invalid={fieldState.invalid}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        const newCode = randomCodeGenerator();
+                        field.onChange(newCode);
+                      }}
+                    >
+                      Generate
+                    </Button>
+                  </div>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -81,25 +138,28 @@ export const CreateVoucherForm = () => {
             />
 
             <Controller
-              name="price"
+              name="value"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Price</FieldLabel>
+                  <FieldLabel>Value</FieldLabel>
                   <div className="relative">
                     <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 text-sm">
                       Rp
                     </span>
                     <Input
                       {...field}
-                      className="pl-8"
+                      className="pl-9"
                       value={
-                        field.value ? formatRupiah(Number(field.value)) : ""
+                        field.value
+                          ? formatCurrency(Number(field.value), false)
+                          : ""
                       }
                       onChange={(e) => {
                         const raw = e.target.value.replace(/[^\d]/g, "");
                         field.onChange(Number(raw || 0));
                       }}
+                      aria-invalid={fieldState.invalid}
                     />
                   </div>
                   {fieldState.invalid && (
@@ -110,15 +170,12 @@ export const CreateVoucherForm = () => {
             />
 
             <Controller
-              name="stock"
+              name="expiresAt"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Stock</FieldLabel>
-                  <Input
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <FieldLabel>Voucher Expiration</FieldLabel>
+                  <DatePicker value={field.value} onChange={field.onChange} />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -127,25 +184,16 @@ export const CreateVoucherForm = () => {
             />
 
             <Controller
-              name="parentEvent"
+              name="eventId"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel>Parent Event</FieldLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an event" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="event1">
-                        Music Festival 2025
-                      </SelectItem>
-                      <SelectItem value="event2">
-                        Maher Zain Live Jakarta
-                      </SelectItem>
-                      <SelectItem value="event3">Startup Expo 2025</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Input
+                    {...field}
+                    value={voucher?.event.title ?? ""}
+                    disabled={true}
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -156,7 +204,7 @@ export const CreateVoucherForm = () => {
 
           <div className="bg-background sticky bottom-0 p-5 shadow-sm">
             <Button className="w-full" type="submit">
-              Create Voucher
+              {isPending ? <LoadingAnimation /> : "Edit voucher"}
             </Button>
           </div>
         </FieldGroup>

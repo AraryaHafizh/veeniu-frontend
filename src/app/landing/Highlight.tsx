@@ -1,5 +1,6 @@
 "use client";
 
+import Markdown from "@/components/Markdown";
 import { TicketCard } from "@/components/ticket-card";
 import {
   Carousel,
@@ -75,17 +76,15 @@ const LatestCarousel = ({ eventCard }: { eventCard: EventCardProps[] }) => {
                       {event.location}
                     </SectionText>
                     <SectionText variant="default">
-                      {formatDate(event.startDate)}
+                      {formatDate(event.startDate, "date")}
                     </SectionText>
                     {/* <SectionText variant="default">
                     {formatCurrency(event.price)}
                   </SectionText> */}
                   </div>
 
-                  <div className="w-[40%]">
-                    <SectionText variant="default" className="line-clamp-4">
-                      {event.description}
-                    </SectionText>
+                  <div className="line-clamp-4 w-[40%] font-light">
+                    <Markdown content={event.description} />
                   </div>
                 </div>
               </div>

@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { LoadingAnimation } from "@/components/ui/loading-animation";
+import { useForgotPassword } from "@/hooks/auth/useForgotPassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useForgotPassword } from "../../../hooks/useForgotPassword";
 
 export const forgotSchema = z.object({
   email: z.email(),

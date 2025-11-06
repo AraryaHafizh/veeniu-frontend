@@ -8,12 +8,22 @@ export interface TicketProps {
   id: string;
   name: string;
   price: number;
+  stock: number;
+  eventId: string;
+  event: {
+    title: string;
+  };
 }
 
 export interface VoucherProps {
   id: string;
   code: string;
   value: number;
+  eventId: string;
+  expiresAt: string;
+  event: {
+    title: string;
+  };
 }
 
 export interface EventDetailProps {

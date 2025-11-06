@@ -32,8 +32,12 @@ export function formatDate(
   }
 }
 
-export function formatCurrency(value: number): string {
-  return "Rp " + value.toLocaleString("id-ID");
+export function formatCurrency(
+  value: number,
+  withSymbol: boolean = true,
+): string {
+  const formatted = value.toLocaleString("id-ID");
+  return withSymbol ? `Rp\u00A0${formatted}` : formatted;
 }
 
 export const isEventPassed = (dateString: string): boolean => {

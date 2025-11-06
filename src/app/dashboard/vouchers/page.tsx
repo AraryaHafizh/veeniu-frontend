@@ -9,10 +9,13 @@ import { SectionTitle } from "@/components/ui/section-title";
 import { useGetOrgEvents } from "@/hooks/event/useGetOrgEvents";
 import { useGetOrgVouchers } from "@/hooks/voucher/useGetOrgVouchers";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Sheet } from "./Sheet";
+import { VoucherProps } from "@/props/event.props";
+import { SheetEdit } from "./SheetEdit";
 
 export default function page() {
+  const [data, setData] = useState<VoucherProps | null>();
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const { data: voucher, isPending } = useGetOrgVouchers({
     page,
@@ -28,6 +31,24 @@ export default function page() {
       { key: "event.title", title: "Parent event" },
     ],
     data: voucher?.data ?? [],
+    actions: {
+      label: "Voucher action",
+      items: [
+        {
+          label: "Edit",
+          onClick: (row: VoucherProps) => {
+            setData(row);
+          },
+        },
+        {
+          label: "Delete",
+          onClick: (row: Record<string, any>) => {
+            console.log(row);
+          },
+          destructive: true,
+        },
+      ],
+    },
   };
 
   const onChangePage = (page: number) => {
@@ -53,6 +74,9 @@ export default function page() {
         </section>
         <DataPagination onChangePage={onChangePage} meta={voucher.meta} />
       </Suspense>
+      <div className="hidden">
+        <SheetEdit data={data!} onClose={() => setData(null)} />
+      </div>
     </section>
   );
 }

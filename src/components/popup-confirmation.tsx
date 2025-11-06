@@ -14,7 +14,7 @@ import {
 import { useEventStore } from "@/store/event-store";
 import { useSidebarStore } from "@/store/sidebar-store";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 interface CreateAccountConfirmationProps {
@@ -105,7 +105,16 @@ export const SendLinkConfirmation = ({
 };
 
 export const SignoutConfirmation = ({ children }: { children: ReactNode }) => {
-  const router = useRouter();
+  async function clearAllStores() {
+    useEventStore.persist.clearStorage();
+    useEventStore.getState().reset();
+    await useEventStore.persist.rehydrate();
+
+    useSidebarStore.persist.clearStorage();
+    useSidebarStore.getState().reset();
+    await useSidebarStore.persist.rehydrate();
+  }
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -123,11 +132,8 @@ export const SignoutConfirmation = ({ children }: { children: ReactNode }) => {
           <AlertDialogAction
             onClick={async () => {
               await signOut({ redirect: false });
-              useEventStore.persist.clearStorage();
-              useEventStore.getState().reset();
-              useSidebarStore.persist.clearStorage();
-              useSidebarStore.getState().reset();
-              router.replace("/");
+              await clearAllStores();
+              redirect("/");
             }}
             className="bg-transparant hover:bg-destructive active:bg-destructive border-destructive text-destructive border hover:text-white active:text-white"
           >
