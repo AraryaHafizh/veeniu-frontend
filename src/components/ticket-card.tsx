@@ -2,9 +2,7 @@ import { formatDate } from "@/lib/utils";
 import clsx from "clsx";
 import { SectionText } from "./ui/section-text";
 interface TicketCardProps {
-  ticketData: {
-    name: string;
-  };
+  ticketData: any;
   eventCard: {
     location: string;
     startDate: string | Date;
@@ -29,7 +27,7 @@ export const TicketCard = ({
   return (
     <div onClick={onPress} className={containerClasses}>
       <div className={clsx(status && "blur-xs")}>
-        <p className="line-clamp-2 font-semibold">{ticketData.name}</p>
+        <p className="line-clamp-2 font-semibold">{ticketData.event.title}</p>
         <SectionText className="mt-2 text-sm">{eventCard.location}</SectionText>
         <SectionText className="text-sm">
           {formatDate(eventCard.startDate)}

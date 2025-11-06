@@ -13,7 +13,7 @@ export const useEditTicket = () => {
   const mutation = useMutation({
     mutationFn: async (data: TicketProps) => {
       const { id, ...rest } = data;
-      console.log("Ticket data to send:", data);
+
       await veeniuApi.patch(`/tickets/edit/${id}`, rest, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -24,8 +24,6 @@ export const useEditTicket = () => {
       queryClient.invalidateQueries({ queryKey: ["org-tickets"] });
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      console.log(error.response?.data.message);
-
       toast.error(error.response?.data.message || "Something went wrong!");
     },
   });

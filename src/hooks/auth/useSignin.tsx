@@ -13,7 +13,6 @@ export const useSignin = () => {
   return useMutation({
     mutationFn: async (body: z.infer<typeof signinSchema>) => {
       const { data } = await veeniuApi.post("/auth/login", body);
-      console.log("login success:", data);
       return data;
     },
     onSuccess: async (data) => {

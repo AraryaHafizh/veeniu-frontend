@@ -7,7 +7,7 @@ import { SignoutConfirmation } from "@/components/popup-confirmation";
 import { splitName } from "@/lib/utils";
 
 export const Data = ({ data }: { data: any }) => (
-  <section className="bg-card mt-10 rounded-lg p-15">
+  <section className="bg-card mt-10 rounded-lg p-5 md:p-15">
     <div>
       <SectionTitle>{data.name}</SectionTitle>
       <SectionText>{data.email}</SectionText>
@@ -19,10 +19,10 @@ export const Data = ({ data }: { data: any }) => (
 
 const UserData = ({ data }: { data: any }) => {
   const names = splitName(data.name);
-  
+
   return (
     <div>
-      <div className="flex w-full gap-5">
+      <div className="w-full gap-5 space-y-5 md:flex md:space-y-0">
         <TextField
           id="first-name"
           label="First name"
@@ -40,17 +40,19 @@ const UserData = ({ data }: { data: any }) => {
       <SectionTitle variant="small" className="mb-5">
         Change Password
       </SectionTitle>
-      <div className="flex w-full items-end gap-5">
+      <div className="w-full items-end gap-5 space-y-5 md:flex md:space-y-0">
         <TextField
           id="new-password"
           type="password"
           label="New password"
+          placeholder="********"
           className="flex-1"
         />
         <TextField
           id="confirm-password"
           type="password"
           label="Confirm password"
+          placeholder="********"
           className="flex-1"
         />
       </div>

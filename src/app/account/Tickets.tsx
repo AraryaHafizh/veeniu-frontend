@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEventStore } from "@/store/event-store";
 
 export const Tickets = () => (
-  <section className="bg-card mt-10 flex-1 rounded-lg p-15">
+  <section className="bg-card mt-10 flex-1 rounded-lg p-5 md:p-15">
     <SectionTitle variant="small">My tickets</SectionTitle>
     <TicketGrid />
   </section>

@@ -1,5 +1,6 @@
 "use client";
 
+import { SignInNeededDialog } from "@/components/popup-confirmation";
 import {
   Accordion,
   AccordionContent,
@@ -9,9 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { LoadingAnimation } from "@/components/ui/loading-animation";
 import { SectionText } from "@/components/ui/section-text";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Separator } from "@/components/ui/separator";
+import { useCreateTransaction } from "@/hooks/transaction/useCreateTransaction";
 import { formatCurrency } from "@/lib/utils";
 import {
   EventDetailProps,
@@ -20,7 +23,10 @@ import {
 } from "@/props/event.props";
 import { useCartStore } from "@/store/cart-store";
 import { TicketPercent } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export const Cart = ({ eventDetail }: { eventDetail: EventDetailProps }) => {
   return (
@@ -92,7 +98,15 @@ const EventTicket = ({ tickets }: { tickets: TicketProps[] }) => {
 };
 
 const EventVoucher = ({ vouchers }: { vouchers: VoucherProps[] }) => {
-  const { addVoucher, removeVoucher, isVoucherSelected } = useCartStore();
+  const {
+    addVoucher,
+    removeVoucher,
+    isVoucherSelected,
+    maxVoucher,
+    getTotalVoucher,
+  } = useCartStore();
+  const totalVoucher = getTotalVoucher();
+  const isMax = totalVoucher >= maxVoucher;
 
   return (
     <Accordion type="single" collapsible>
@@ -107,7 +121,7 @@ const EventVoucher = ({ vouchers }: { vouchers: VoucherProps[] }) => {
             return (
               <div
                 key={i}
-                className={`flex cursor-pointer items-center gap-5 rounded-lg p-5 transition-all duration-200 hover:bg-[var(--container-hover)] active:bg-[var(--container-hover)] ${voucherSelected ? "bg-primary/20 hover:bg-destructive/20" : ""}`}
+                className={`flex cursor-pointer items-center gap-5 rounded-lg p-5 transition-all duration-200 ${voucherSelected ? "bg-primary/20 hover:bg-destructive/20" : ""} ${isMax ? "hover:bg-destructive/20" : "hover:bg-[var(--container-hover)] active:bg-[var(--container-hover)]"}`}
                 onClick={() => {
                   voucherSelected
                     ? removeVoucher(voucher.id)
@@ -122,6 +136,9 @@ const EventVoucher = ({ vouchers }: { vouchers: VoucherProps[] }) => {
               </div>
             );
           })}
+          <SectionText className="text-right">
+            Total selected: {totalVoucher}/{maxVoucher}
+          </SectionText>
           <UserPoint />
         </AccordionContent>
       </AccordionItem>
@@ -144,7 +161,11 @@ const UserPoint = () => (
 
 const Subtotal = () => {
   const router = useRouter();
-  const { subtotal, discount, total } = useCartStore();
+  const { subtotal, discount, total, isCartEmpty, getTransactionPayload } =
+    useCartStore();
+  const { data: session } = useSession();
+  const [openDialog, setOpenDialog] = useState(false);
+  const { mutateAsync, isPending } = useCreateTransaction();
 
   const PriceDetail = ({ title, value }: { title: string; value: string }) => (
     <div className="flex justify-between">
@@ -152,6 +173,19 @@ const Subtotal = () => {
       <SectionText>{value}</SectionText>
     </div>
   );
+
+  const isSignin = async () => {
+    if (!session) {
+      setOpenDialog(true);
+      return;
+    }
+    if (isCartEmpty()) {
+      toast.warning("Cart is empty");
+      return;
+    }
+    const data = getTransactionPayload(session.user.email);
+    await mutateAsync(data);
+  };
 
   return (
     <div className="space-y-2">
@@ -161,9 +195,10 @@ const Subtotal = () => {
         <p>Total</p>
         <p>{total}</p>
       </div>
-      <Button className="mt-5 w-full" onClick={() => router.push("/payment")}>
-        Checkout
+      <Button className="mt-5 w-full" onClick={isSignin}>
+        {isPending ? <LoadingAnimation /> : "Checkout"}
       </Button>
+      <SignInNeededDialog open={openDialog} onOpenChange={setOpenDialog} />
     </div>
   );
 };

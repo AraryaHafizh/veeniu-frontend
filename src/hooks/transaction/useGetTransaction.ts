@@ -2,27 +2,16 @@ import { veeniuApi } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-export interface PaginationQueries {
-  limit?: number;
-  page?: number;
-  sortBy?: string;
-  sortOrder?: string;
-  search?: string;
-}
-
-export const useGetTransactions = (queries?: PaginationQueries) => {
+export const useGetTransaction = (uuid: string) => {
   const session = useSession();
 
   return useQuery({
-    queryKey: ["transactions"],
+    queryKey: ["transaction"],
     queryFn: async () => {
-      const uid = session.data!.user.id;
       const token = session.data!.user.accessToken;
-      const res = await veeniuApi.get(`/transactions/${uid}`, {
+      const res = await veeniuApi.get(`/transactions/${uuid}`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: queries,
       });
-      console.log(res.data);
       return res.data;
     },
     staleTime: 1000 * 60 * 30,

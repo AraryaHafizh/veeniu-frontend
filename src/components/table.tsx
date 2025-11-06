@@ -53,7 +53,7 @@ export const Table = ({
   actionLabel = "Action",
   className,
 }: TableProps) => {
-  const priceKey = ["amount", "price", "value"];
+  const priceKey = ["amount", "price", "value", "finalAmount"];
 
   return (
     <div className={clsx("bg-card rounded-lg p-5", className)}>

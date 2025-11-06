@@ -144,3 +144,65 @@ export const SignoutConfirmation = ({ children }: { children: ReactNode }) => {
     </AlertDialog>
   );
 };
+
+interface SignInNeededDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export const SignInNeededDialog = ({
+  open,
+  onOpenChange,
+}: SignInNeededDialogProps) => {
+  const router = useRouter();
+
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Sign In Required</AlertDialogTitle>
+          <AlertDialogDescription>
+            You need to sign in to continue. Please log in to your account to
+            proceed.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={() => router.replace("/auth/signin")}>
+            Go to Sign In
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+interface UploadPaymentProofConfirmationProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export const UploadPaymentProofConfirmation = ({
+  open,
+  onOpenChange,
+}: UploadPaymentProofConfirmationProps) => {
+  const router = useRouter();
+
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Payment Proof Uploaded</AlertDialogTitle>
+          <AlertDialogDescription>
+            Awesome! 🎉 We’ve received your payment proof. Sit back and relax
+            while we verify it for you.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={() => router.replace("/account")}>
+            Okay
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};

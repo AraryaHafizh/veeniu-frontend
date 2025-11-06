@@ -16,7 +16,7 @@ interface GetBlogsQuery extends PaginationQueries {
 
 export const useGetEvents = (queries?: GetBlogsQuery) => {
   return useQuery({
-    queryKey: ["events"],
+    queryKey: ["events", queries],
     queryFn: async () => {
       const res = await veeniuApi.get("/events", { params: queries });
       return res.data;
