@@ -16,12 +16,12 @@ const Account = async () => {
   const userData = session.user;
 
   return (
-    <main className="flex w-full justify-center">
+    <main className="w-full justify-center">
       <Wrapper className="mt-[100px]">
         <Header />
         <Data data={userData} />
-        <div className="flex gap-10">
-          <ReferenceCode data={userData}/>
+        <div className="gap-10 md:flex">
+          <ReferenceCode data={userData} />
           <Points />
         </div>
         <Tickets />

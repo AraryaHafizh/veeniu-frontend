@@ -18,7 +18,7 @@ export const ReferenceCode = ({ data }: { data: any }) => {
   };
 
   return (
-    <section className="bg-card mt-10 flex-1 rounded-lg p-15">
+    <section className="bg-card mt-10 flex-1 rounded-lg p-5 md:p-15">
       <SectionTitle variant="small">Refer a friend</SectionTitle>
       <SectionText>Share your code and you both get 500 points!</SectionText>
 

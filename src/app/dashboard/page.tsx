@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import { SidebarTriggerMobile } from "@/components/sidebar-trigger-mobile";
 import { SectionTitle } from "@/components/ui/section-title";
 import { formatCurrency, getGreeting } from "@/lib/utils";
-import { LandingTable } from "./LandingTable";
+import { redirect } from "next/navigation";
 
 interface StatCardProps {
   title: string;
@@ -39,7 +38,6 @@ const Page = async () => {
         <StatCard title="Ticket sold" value={15.0} />
         <StatCard title="Total attendees" value={15.0} />
       </section>
-      <LandingTable />
     </main>
   );
 };

@@ -10,23 +10,19 @@ export interface PaginationQueries {
   search?: string;
 }
 
-export const useGetTransactions = (queries?: PaginationQueries) => {
+export const useGetOrgTransactions = (queries?: PaginationQueries) => {
   const session = useSession();
 
   return useQuery({
-    queryKey: ["transactions"],
+    queryKey: ["org-transactions", queries],
     queryFn: async () => {
       const uid = session.data!.user.id;
       const token = session.data!.user.accessToken;
-      const res = await veeniuApi.get(`/transactions/${uid}`, {
+      const res = await veeniuApi.get(`/transactions/organizer/${uid}`, {
         headers: { Authorization: `Bearer ${token}` },
         params: queries,
       });
-      console.log(res.data);
       return res.data;
     },
-    staleTime: 1000 * 60 * 30,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
   });
 };

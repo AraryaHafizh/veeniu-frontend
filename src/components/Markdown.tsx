@@ -11,7 +11,7 @@ const Markdown = (props: MarkdownProps) => {
     h2: ({ children }) => <h2 className="text-xl font-bold">{children}</h2>,
     h3: ({ children }) => <h3 className="text-lg font-bold">{children}</h3>,
     p: ({ children }) => (
-      <p className="mb-4 text-base whitespace-pre-line">{children}</p>
+      <p className="mb-6 text-base whitespace-pre-wrap">{children}</p>
     ),
   };
 

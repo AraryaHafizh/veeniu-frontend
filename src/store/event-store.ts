@@ -1,10 +1,9 @@
-import { TicketData } from "@/props/ticket.props";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface EventStore {
-  selectedEvent: TicketData | null;
-  setSelectedEvent: (event: TicketData) => void;
+  selectedEvent: any | null;
+  setSelectedEvent: (event: any) => void;
   reset: () => void;
 }
 

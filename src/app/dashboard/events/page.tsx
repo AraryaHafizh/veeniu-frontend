@@ -6,16 +6,15 @@ import { Table } from "@/components/table";
 import { Input } from "@/components/ui/input";
 import { LoadingScreen } from "@/components/ui/loading-animation";
 import { SectionTitle } from "@/components/ui/section-title";
-import { parseAsInteger, useQueryState } from "nuqs";
+import { EventCardProps } from "@/props/eventCard.props";
 import { Suspense, useState } from "react";
 import { useGetOrgEvents } from "../../../hooks/event/useGetOrgEvents";
 import { Sheet } from "./Sheet";
 import { SheetEdit } from "./SheetEdit";
-import { EventCardProps } from "@/props/eventCard.props";
 
 export default function page() {
   const [data, setData] = useState<EventCardProps | null>();
-  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+  const [page, setPage] =useState(1);
   const { data: event, isPending } = useGetOrgEvents({
     page,
     limit: 20,
