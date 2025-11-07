@@ -8,6 +8,8 @@ interface TextFieldProps {
   label: string
   placeholder?: string
   className?: string
+  value?: string
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   autoComplete?: string
 }
 
@@ -18,6 +20,8 @@ export const TextField = ({
   placeholder = "",
   className,
   autoComplete = "off",
+  value,
+  onChange,
 }: TextFieldProps) => {
   return (
     <div className={clsx("flex flex-col gap-2", className)}>
@@ -27,6 +31,8 @@ export const TextField = ({
         type={type}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        value={value}
+        onChange={onChange}
       />
     </div>
   )
