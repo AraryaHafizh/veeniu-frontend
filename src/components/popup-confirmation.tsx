@@ -16,6 +16,8 @@ import { useSidebarStore } from "@/store/sidebar-store";
 import { signOut } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { ReactNode } from "react";
+import { Button } from "./ui/button";
+import QRCode from "react-qr-code";
 
 interface CreateAccountConfirmationProps {
   open: boolean;
@@ -201,6 +203,50 @@ export const UploadPaymentProofConfirmation = ({
           <AlertDialogAction onClick={() => router.replace("/account")}>
             Okay
           </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+interface ImageDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  src: string;
+  isUuid?: boolean;
+}
+
+export const ImageDialog = ({
+  open,
+  onOpenChange,
+  src,
+  isUuid = false,
+}: ImageDialogProps) => {
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className="max-w-sm">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Payment Proof</AlertDialogTitle>
+        </AlertDialogHeader>
+
+        <div className="my-4 flex justify-center">
+          {isUuid ? (
+            <div style={{ background: "white", padding: "16px" }}>
+              <QRCode value={src} />
+            </div>
+          ) : (
+            <img
+              src={src}
+              alt="Preview"
+              className="max-h-96 rounded-md object-contain"
+            />
+          )}
+        </div>
+
+        <AlertDialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Close
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

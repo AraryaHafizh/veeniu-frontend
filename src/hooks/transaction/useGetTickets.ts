@@ -5,9 +5,6 @@ import { useSession } from "next-auth/react";
 export interface PaginationQueries {
   limit?: number;
   page?: number;
-  sortBy?: string;
-  sortOrder?: string;
-  search?: string;
 }
 
 export const useGetTickets = (queries?: PaginationQueries) => {
@@ -22,9 +19,10 @@ export const useGetTickets = (queries?: PaginationQueries) => {
         headers: { Authorization: `Bearer ${token}` },
         params: queries,
       });
+
       return res.data;
     },
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 60 * 10,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });

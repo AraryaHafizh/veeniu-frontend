@@ -21,7 +21,7 @@ export const useGetEvents = (queries?: GetBlogsQuery) => {
       const res = await veeniuApi.get("/events", { params: queries });
       return res.data;
     },
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 60 * 10,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });

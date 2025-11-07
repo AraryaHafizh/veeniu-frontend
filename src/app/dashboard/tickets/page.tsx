@@ -8,15 +8,14 @@ import { LoadingScreen } from "@/components/ui/loading-animation";
 import { SectionTitle } from "@/components/ui/section-title";
 import { useGetOrgEvents } from "@/hooks/event/useGetOrgEvents";
 import { useGetOrgTickets } from "@/hooks/ticket/useGetOrgTickets";
-import { parseAsInteger, useQueryState } from "nuqs";
+import { TicketProps } from "@/props/event.props";
 import { Suspense, useState } from "react";
 import { Sheet } from "./Sheet";
-import { TicketProps } from "@/props/event.props";
 import { SheetEdit } from "./SheetEdit";
 
 export default function page() {
   const [data, setData] = useState<TicketProps | null>();
-  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+  const [page, setPage] = useState(1);
   const { data: ticket, isPending } = useGetOrgTickets({
     page,
     limit: 20,

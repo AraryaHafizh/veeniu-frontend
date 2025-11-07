@@ -5,7 +5,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SectionTitle } from "@/components/ui/section-title";
@@ -31,6 +35,8 @@ export interface DropdownItem {
   label: string;
   onClick?: (row: any) => void;
   destructive?: boolean;
+  isPortal?: boolean;
+  children?: DropdownItem[];
 }
 
 export interface TableProps {
@@ -54,6 +60,7 @@ export const Table = ({
   className,
 }: TableProps) => {
   const priceKey = ["amount", "price", "value", "finalAmount"];
+  const dateKey = ["date", "createdAt", "updatedAt", "canceledAt", "expiresAt"];
 
   return (
     <div className={clsx("bg-card rounded-lg p-5", className)}>
@@ -104,10 +111,10 @@ export const Table = ({
                         }
                       }
 
-                      if (key.toLowerCase().includes("date") && value) {
+                      if (dateKey.includes(key)) {
                         const dateValue = new Date(String(value));
                         if (!isNaN(dateValue.getTime())) {
-                          value = formatDate(dateValue.toISOString(), "date");
+                          value = formatDate(dateValue.toISOString());
                         }
                       }
 
@@ -143,7 +150,17 @@ export const Table = ({
                           label={actions.label}
                           items={actions.items.map((item) => ({
                             ...item,
-                            onClick: () => item.onClick?.(row),
+                            onClick: item.onClick
+                              ? () => item.onClick?.(row)
+                              : undefined,
+                            children: item.children
+                              ? item.children.map((child) => ({
+                                  ...child,
+                                  onClick: child.onClick
+                                    ? () => child.onClick?.(row)
+                                    : undefined,
+                                }))
+                              : undefined,
                           }))}
                         >
                           <Button variant="outline">{actionLabel}</Button>
@@ -176,17 +193,43 @@ export const TableDropdown = ({
       <DropdownMenuContent>
         {label && <DropdownMenuLabel>{label}</DropdownMenuLabel>}
         {label && <DropdownMenuSeparator />}
-        {items.map((item, i) => (
-          <DropdownMenuItem
-            key={i}
-            onClick={item.onClick}
-            className={
-              item.destructive ? "text-destructive focus:text-destructive" : ""
-            }
-          >
-            {item.label}
-          </DropdownMenuItem>
-        ))}
+
+        {items.map((item, i) =>
+          item.isPortal && item.children ? (
+            <DropdownMenuSub key={i}>
+              <DropdownMenuSubTrigger>{item.label}</DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  {item.children.map((subItem, j) => (
+                    <DropdownMenuItem
+                      key={j}
+                      onClick={subItem.onClick}
+                      className={
+                        subItem.destructive
+                          ? "text-destructive focus:text-destructive"
+                          : ""
+                      }
+                    >
+                      {subItem.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          ) : (
+            <DropdownMenuItem
+              key={i}
+              onClick={item.onClick}
+              className={
+                item.destructive
+                  ? "text-destructive focus:text-destructive"
+                  : ""
+              }
+            >
+              {item.label}
+            </DropdownMenuItem>
+          ),
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

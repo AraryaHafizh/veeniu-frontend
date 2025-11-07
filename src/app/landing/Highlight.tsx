@@ -96,26 +96,28 @@ const LatestCarousel = ({ eventCard }: { eventCard: EventCardProps[] }) => {
   );
 };
 
-const UserTickets = ({ transactions }: { transactions: any[] }) => (
-  <section>
-    <div className="mt-5 flex items-end justify-between px-5 md:px-20">
-      <SectionTitle>My tickets</SectionTitle>
-      <TextLink link={"/account"} />
-    </div>
-    <div className="scroll-hidden mt-5 flex h-fit w-full gap-3 overflow-x-auto px-5 md:px-20">
-      {transactions && transactions.length > 0 ? (
-        transactions.map((transaction, i) => (
-          <TicketCard
-            key={i}
-            ticketData={transaction}
-            eventCard={transaction.event}
-          />
-        ))
-      ) : (
-        <div className="text-muted-foreground flex h-[110px] w-full items-center justify-center rounded-2xl border-2 border-dashed">
-          No tickets
-        </div>
-      )}
-    </div>
-  </section>
-);
+const UserTickets = ({ transactions }: { transactions: any[] }) => {
+  return (
+    <section>
+      <div className="mt-5 flex items-end justify-between px-5 md:px-20">
+        <SectionTitle>My tickets</SectionTitle>
+        <TextLink link={"/account"} />
+      </div>
+      <div className="scroll-hidden mt-5 flex h-fit w-full gap-3 overflow-x-auto px-5 md:px-20">
+        {transactions && transactions.length > 0 ? (
+          transactions.map((transaction, i) => (
+            <TicketCard
+              key={i}
+              ticketData={transaction}
+              width="w-[360px]"
+            />
+          ))
+        ) : (
+          <div className="text-muted-foreground flex h-[110px] w-full items-center justify-center rounded-2xl border-2 border-dashed">
+            No tickets
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};

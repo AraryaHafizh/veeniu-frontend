@@ -63,7 +63,7 @@ export const TransactionHistory = () => {
           <LoadingAnimation />
         </div>
       ) : (
-        <div className="grid w-full grid-cols-1">
+        <div className="grid h-[400px] w-full grid-cols-1">
           <Table {...dashboardTableData} />
         </div>
       )}
