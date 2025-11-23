@@ -11,18 +11,21 @@ import { Suspense, useState } from "react";
 import { useGetOrgEvents } from "../../../hooks/event/useGetOrgEvents";
 import { Sheet } from "./Sheet";
 import { SheetEdit } from "./SheetEdit";
+import { useDeleteEvent } from "@/hooks/event/useDeleteEvent";
 
 export default function page() {
   const [data, setData] = useState<EventCardProps | null>();
-  const [page, setPage] =useState(1);
+  const [page, setPage] = useState(1);
   const { data: event, isPending } = useGetOrgEvents({
     page,
     limit: 20,
   });
+  const { mutateAsync } = useDeleteEvent();
+
   const dashboardTableData = {
     title: "",
     columns: [
-    { key: "no", title: "No" },
+      { key: "no", title: "No" },
       { key: "title", title: "Event title" },
       { key: "category", title: "Category" },
       { key: "location", title: "Location" },
@@ -42,8 +45,8 @@ export default function page() {
         },
         {
           label: "Delete",
-          onClick: (row: Record<string, any>) => {
-            console.log(row);
+          onClick: (row: EventCardProps) => {
+            mutateAsync(row);
           },
           destructive: true,
         },

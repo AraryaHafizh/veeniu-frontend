@@ -40,7 +40,8 @@ export const useUpdateUser = () => {
 
     onSuccess: (data) => {
       toast.success("Update user success ✅");
-      queryClient.invalidateQueries({ queryKey: ["user", "profile"] });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
 
     onError: (error: AxiosError<{ message: string }>) => {

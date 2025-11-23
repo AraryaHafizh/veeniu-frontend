@@ -12,6 +12,7 @@ import { VoucherProps } from "@/props/event.props";
 import { Suspense, useState } from "react";
 import { Sheet } from "./Sheet";
 import { SheetEdit } from "./SheetEdit";
+import { useDeleteVoucher } from "@/hooks/voucher/useDeleteVoucher";
 
 export default function page() {
   const [data, setData] = useState<VoucherProps | null>();
@@ -21,6 +22,8 @@ export default function page() {
     limit: 20,
   });
   const { data: event, isPending: isPending2 } = useGetOrgEvents();
+  const { mutateAsync } = useDeleteVoucher();
+
   const dashboardTableData = {
     title: "",
     columns: [
@@ -41,8 +44,8 @@ export default function page() {
         },
         {
           label: "Delete",
-          onClick: (row: Record<string, any>) => {
-            console.log(row);
+          onClick: (row: VoucherProps) => {
+            mutateAsync(row);
           },
           destructive: true,
         },

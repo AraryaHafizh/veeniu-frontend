@@ -12,6 +12,7 @@ import { TicketProps } from "@/props/event.props";
 import { Suspense, useState } from "react";
 import { Sheet } from "./Sheet";
 import { SheetEdit } from "./SheetEdit";
+import { useDeleteTicket } from "@/hooks/ticket/useDeleteTicket";
 
 export default function page() {
   const [data, setData] = useState<TicketProps | null>();
@@ -21,6 +22,8 @@ export default function page() {
     limit: 20,
   });
   const { data: event, isPending: isPending2 } = useGetOrgEvents();
+  const { mutateAsync } = useDeleteTicket();
+
   const dashboardTableData = {
     title: "",
     columns: [
@@ -43,8 +46,8 @@ export default function page() {
         },
         {
           label: "Delete",
-          onClick: (row: Record<string, any>) => {
-            console.log(row);
+          onClick: (row: TicketProps) => {
+            mutateAsync(row);
           },
           destructive: true,
         },

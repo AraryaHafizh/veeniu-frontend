@@ -23,8 +23,6 @@ export const Tickets = () => {
     setPage(page);
   };
 
-  console.log(tickets);
-
   return (
     <section className="bg-card mt-10 flex-1 rounded-lg p-5 md:p-15">
       <SectionTitle variant="small">My tickets</SectionTitle>
